@@ -8,10 +8,9 @@ using System.Text;
 
 namespace HoloKit
 {
-    public class RemoteKeyboardReceiver : MonoBehaviour
+    public class RemoteKeyboardReceiver : Singleton<RemoteKeyboardReceiver>
     {
-
-        public static RemoteKeyboardReceiver Instance { get; private set; }
+        public int Port = 5555;
 
         private UdpClient client;
 
@@ -43,9 +42,7 @@ namespace HoloKit
 
         void Start()
         {
-            Instance = this;
-
-            client = new UdpClient(5555);
+            client = new UdpClient(Port);
             try
             {
                 client.BeginReceive(new AsyncCallback(udpReceive), null);
