@@ -24,7 +24,7 @@ namespace HoloKit {
         {
             if (phoneSpaceController == null)
             {
-                phoneSpaceController = FindObjectOfType<PhoneSpaceController>();
+                phoneSpaceController = FindObjectOfType<PhoneSpaceControllerBase>();
             }
 
             CreateParam("Offset X",

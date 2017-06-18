@@ -32,19 +32,26 @@ namespace UnityEngine.XR.iOS
             m_VideoCommandBuffer.Blit(null, BuiltinRenderTextureType.CurrentActive, m_ClearMaterial);
             GetComponent<Camera>().AddCommandBuffer(CameraEvent.BeforeForwardOpaque, m_VideoCommandBuffer);
             bCommandBufferInitialized = true;
-
         }
 
         void OnDestroy()
         {
             GetComponent<Camera>().RemoveCommandBuffer(CameraEvent.BeforeForwardOpaque, m_VideoCommandBuffer);
+            // Modified by HoloKit [[[
             bCommandBufferInitialized = false;
+            // ]]]
         }
 
-        void OnDisable() {
-            GetComponent<Camera>().RemoveCommandBuffer(CameraEvent.BeforeForwardOpaque, m_VideoCommandBuffer);
+        // Added by HoloKit [[[
+        void OnDisable() 
+        {
+            if (m_VideoCommandBuffer != null) {
+                GetComponent<Camera>().RemoveCommandBuffer(CameraEvent.BeforeForwardOpaque, m_VideoCommandBuffer);
+            }
+
             bCommandBufferInitialized = false;
         }
+        // ]]]
 
         public void OnPreRender()
         {
@@ -98,6 +105,11 @@ namespace UnityEngine.XR.iOS
 #else
         public void Start()
         {
+            // Disabled by HoloKit [[[
+            // m_VideoCommandBuffer = new CommandBuffer(); 
+            // m_VideoCommandBuffer.Blit(null, BuiltinRenderTextureType.CurrentActive, m_ClearMaterial);
+            // GetComponent<Camera>().AddCommandBuffer(CameraEvent.BeforeForwardOpaque, m_VideoCommandBuffer);
+            // ]]]
         }
 
         void OnDestroy()
@@ -105,6 +117,7 @@ namespace UnityEngine.XR.iOS
             GetComponent<Camera>().RemoveCommandBuffer(CameraEvent.BeforeForwardOpaque, m_VideoCommandBuffer);
         }
 
+        // Added by HoloKit [[[
         void OnEnable() {
             m_VideoCommandBuffer = new CommandBuffer(); 
             m_VideoCommandBuffer.Blit(null, BuiltinRenderTextureType.CurrentActive, m_ClearMaterial);
@@ -112,8 +125,11 @@ namespace UnityEngine.XR.iOS
         }
 
         void OnDisable() {
-            GetComponent<Camera>().RemoveCommandBuffer(CameraEvent.BeforeForwardOpaque, m_VideoCommandBuffer);
+            if (m_VideoCommandBuffer != null) {
+                GetComponent<Camera>().RemoveCommandBuffer(CameraEvent.BeforeForwardOpaque, m_VideoCommandBuffer);
+            }
         }
+        // ]]]
 #endif
     }
 }

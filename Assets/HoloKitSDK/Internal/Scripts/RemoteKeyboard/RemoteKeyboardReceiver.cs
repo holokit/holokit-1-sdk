@@ -51,7 +51,7 @@ namespace HoloKit
                 client.BeginReceive(new AsyncCallback(udpReceive), null);
                 Debug.Log("UDP begin");
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Debug.LogError("Failed to start UDP receiver.");
             }
