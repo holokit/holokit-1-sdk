@@ -24,7 +24,8 @@ For detailed manual, please see [HoloKitSDK Reference Manual](docs/manual.md).
     * ![Screenshot](images/sign_team.png) 
 7. Click "Run" to build and launch the example on your device. 
 8. If you get build failure regarding code signing, try to understand [Launching Your App on Devices](https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/LaunchingYourApponDevices/LaunchingYourApponDevices.html#//apple_ref/doc/uid/TP40012582-CH27-SW4). For other problems see Troubleshooting below.
-9. After the app runs, you should see a cube and a sphere floating in the air somewhere. You may gaze at the sphere and it'll turn to red. ![Sample](images/app1.png)
+9. After the app runs, you should see a cube and a sphere floating in the air somewhere. You may gaze at the sphere and it'll turn to red. 
+    * ![Sample](images/app1.png)
 10. The app detects planes, and you may click on the screen to place the cube on the plane. 
     * ![Sample](images/app2.png)
 11. You may touch the small "C" button to switch to HoloKit mode. ![Sample](images/app3.png)
