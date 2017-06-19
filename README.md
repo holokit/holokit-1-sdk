@@ -1,7 +1,7 @@
 #HoloKitSDK v1.0
 HoloKitSDK is to build AR apps for HoloKit. Currently, we provide the SDK as Unity package, and it runs on iOS devices that supports ARKit. 
 
-For detailed manual, please see [HoloKitSDK Reference Manual](docs/manual.md).
+For detailed manual, please see [HoloKitSDK Reference Manual](docs/MANUAL.md).
 
 ## Prerequists
 * You must be an [Apple Developer](https://developer.apple.com/programs/). 
