@@ -14,6 +14,17 @@ namespace HoloKit
 
     public class HoloKitCameraRigController : PhoneSpaceControllerBase
     {
+        private static HoloKitCameraRigController instance;
+        public static HoloKitCameraRigController Instance {
+            get {
+                if (instance == null)
+                {
+                    instance = FindObjectOfType<HoloKitCameraRigController>();
+                }
+
+                return instance;
+            }
+        }
 
         public SeeThroughMode SeeThroughMode;
 
@@ -42,7 +53,6 @@ namespace HoloKit
             {
                 LeftCamera.fieldOfView = value;
                 RightCamera.fieldOfView = value;
-                // centerCamera.fieldOfView = value;
             }
         }
 
@@ -99,6 +109,12 @@ namespace HoloKit
             }
         }
 
+        public Transform CurrentEyeCenter {
+            get {
+                return SeeThroughMode == SeeThroughMode.HoloKit ? HoloKitOffset : CenterCamera.transform;
+            }
+        }
+
         void Start()
         {
             leftBarrel = LeftCamera.GetComponent<BarrelDistortion>();
@@ -109,7 +125,7 @@ namespace HoloKit
 
         void OnGUI()
         {
-            if (GUI.Button(new Rect(0, 0, 50, 50), "C"))
+            if (GUI.Button(new Rect(Screen.width - 75, 0, 75, 75), "C"))
             {
                 SeeThroughMode = (SeeThroughMode == SeeThroughMode.Video) 
                     ? SeeThroughMode.HoloKit 
@@ -130,6 +146,11 @@ namespace HoloKit
                 leftBarrel.Offset = fovCenterOffset;
                 rightBarrel.Offset = -fovCenterOffset;
             }
+        }
+
+        void OnDestroy()
+        {
+            instance = null;
         }
     }
 }
