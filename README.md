@@ -40,19 +40,19 @@ For detailed manual, please see [HoloKitSDK Reference Manual](docs/manual.md).
 ## How to upgrade to iOS 11 Beta
 1. Backup your device. See "Prepare your device before you update to beta software" section in [About iOS beta software](https://support.apple.com/en-us/HT203282)
 2. Follow [iOS beta Software Installation Guide](https://developer.apple.com/support/beta-software/install-ios-beta/) to install iOS 11 Beta. Briefly,
-  1. Use Safari on your **iOS device** to open [https://developer.apple.com](https://developer.apple.com) and login with your Apple Developer account.
-  2. Go to [https://developer.apple.com/download](https://developer.apple.com/download) and click "Download" button for iOS 11 beta. 
-      * ![Screenshot](images/iOS11Download.png)
-  3. In the pop-up window, click "Install" 
-      * ![Screenshot](images/iOS11Install.png)
-  4. After accepting the agreement and restarting your device, you could install iOS 11 Beta from "Settings" -> "General" -> "Software Update". 
-      * ![Screenshot](images/iOS11InstallPage.png)
+    1. Use Safari on your **iOS device** to open [https://developer.apple.com](https://developer.apple.com) and login with your Apple Developer account.
+    2. Go to [https://developer.apple.com/download](https://developer.apple.com/download) and click "Download" button for iOS 11 beta. 
+        * ![Screenshot](images/iOS11Download.png)
+    3. In the pop-up window, click "Install" 
+        * ![Screenshot](images/iOS11Install.png)
+    4. After accepting the agreement and restarting your device, you could install iOS 11 Beta from "Settings" -> "General" -> "Software Update". 
+        * ![Screenshot](images/iOS11InstallPage.png)
   
 ## Troubleshooting
 * I don't have an Apple Developer account. 
-  * You need one.
+    * You need one.
 * I cannot see any "Team" in my XCode project settings.
-  * Make sure "Automatically manage signing" is checked, and you've logged in with your developer account in "XCode" -> "Preferences" -> "Accounts". 
+    * Make sure "Automatically manage signing" is checked, and you've logged in with your developer account in "XCode" -> "Preferences" -> "Accounts". 
 * [WIP]
 
 ## Contribution
