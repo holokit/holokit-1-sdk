@@ -27,12 +27,29 @@ namespace HoloKit
 
         public LayerMask RaycastMask;
 
-        private Collider currentTarget;
+        private HoloKitGazeTarget currentTarget;
         private Vector3 initialScale;
 
         void Start()
         {
             initialScale = GazeCursor.localScale;
+        }
+
+        void Update()
+        {
+            if (currentTarget != null 
+                && currentTarget.KeysToListenOnGaze != null
+                && currentTarget.KeyDownOnGaze != null) 
+            {
+                for (int i = 0; i < currentTarget.KeysToListenOnGaze.Length; i++)
+                {
+                    HoloKitKeyCode keyCode = currentTarget.KeysToListenOnGaze[i];
+                    if (HoloKitInputManager.Instance.GetKeyDown(keyCode))
+                    {
+                        currentTarget.KeyDownOnGaze.Invoke(keyCode);
+                    }
+                }
+            }
         }
 
         void LateUpdate()
@@ -45,7 +62,8 @@ namespace HoloKit
             );
 
             RaycastHit hitInfo;
-            if (Physics.Raycast(ray, out hitInfo, RaycastDistance, RaycastMask)) 
+            bool hit = Physics.Raycast(ray, out hitInfo, RaycastDistance, RaycastMask);
+            if (hit) 
             {
                 GazeCursor.position = hitInfo.point + hitInfo.normal * hitInfo.distance * 0.01f;
                 GazeCursor.localScale = initialScale / RaycastDistance * hitInfo.distance;
@@ -56,6 +74,22 @@ namespace HoloKit
                 GazeCursor.position = eyeCenter.position + eyeCenter.forward * RaycastDistance;
                 GazeCursor.forward = eyeCenter.forward;
                 GazeCursor.localScale = initialScale;
+            }
+
+            // Invoke gaze events on gaze targets
+            HoloKitGazeTarget newTarget = hit ? hitInfo.collider.GetComponent<HoloKitGazeTarget>() : null;
+            if (newTarget != currentTarget)  {
+                if (currentTarget != null && currentTarget.GazeExit != null)
+                {
+                    currentTarget.GazeExit.Invoke();
+                }
+
+                if (newTarget != null && newTarget.GazeEnter != null)
+                {
+                    newTarget.GazeEnter.Invoke();
+                }
+
+                currentTarget = newTarget;
             }
         }
 

@@ -9,6 +9,9 @@ namespace HoloKit
         private List<char> chars = new List<char>(8);
         private List<KeyCode> keyCodes = new List<KeyCode>(8);
 
+        /// <summary>
+        /// Check if the given keyCode is pressed in this frame. Must be called in Update() functions.
+        /// </summary>
         public bool GetKeyDown(HoloKitKeyCode keyCode, out HoloKitInputType inputType)
         {
             inputType = HoloKitInputType.Unknown;
