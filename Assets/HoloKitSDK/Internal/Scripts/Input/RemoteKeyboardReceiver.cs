@@ -53,6 +53,8 @@ namespace HoloKit
             {
                 Debug.LogError("Failed to start UDP receiver.");
             }
+
+            InstallKeyCommandHandler();
         }
 
         void Update()
@@ -126,12 +128,19 @@ namespace HoloKit
             }
         }
 
-        #if UNITY_IOS
+        #if UNITY_EDITOR
+        private void InstallKeyCommandHandler() 
+        {
+            Debug.Log("KeyCommandHandler not supported in editor.");
+        }          
+        #elif UNITY_IOS
         [DllImport ("__Internal")]
         private static extern void InstallKeyCommandHandler();
         #else
-        private void InstallKeyCommandHandler() {}          
-        }
+        private void InstallKeyCommandHandler() 
+        {
+            
+        }          
         #endif
     }
 }

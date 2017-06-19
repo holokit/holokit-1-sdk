@@ -16,9 +16,23 @@ namespace HoloKit.Editor
 
         private static void EditorUpdate()
         {
+            checkPlatform();
             checkCameraDescription();
             checkTargetSDKVersion();
             EditorApplication.update -= EditorUpdate;
+        }
+
+        private static void checkPlatform() {
+            if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.iOS) {
+                 if (EditorUtility.DisplayDialog(
+                     "Switch Platform", 
+                     "Currently HoloKit only supports iOS platform. Switch to iOS now? ", 
+                     "Switch to iOS",
+                     "Cancel")) 
+                {
+                    EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.iOS, BuildTarget.iOS);
+                }
+            }
         }
 
         private static void checkCameraDescription()
