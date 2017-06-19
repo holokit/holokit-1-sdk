@@ -60,6 +60,7 @@ GameObject:
   - component: {fileID: 20837122590929416}
   - component: {fileID: 114821182241079652}
   - component: {fileID: 114023904692915178}
+  - component: {fileID: 114508485027567248}
   m_Layer: 0
   m_Name: VideoSeeThroughCamera
   m_TagString: MainCamera
@@ -338,6 +339,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_camera: {fileID: 20837122590929416}
+--- !u!114 &114508485027567248
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1666494909141600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cca6d9321bb464468984d6fffc09a953, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114821182241079652
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -360,7 +372,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 971fce27786764c6b917f7e3a4b466a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CameraSeeThrough: 1
+  SeeThroughMode: 0
+  DisplayCameraModeSwitchButton: 1
+  SeeThroughModeToggleKey: 13
   fovCenterOffset: 0
   CenterCamera: {fileID: 20837122590929416}
   HoloKitOffset: {fileID: 4912506455225298}
