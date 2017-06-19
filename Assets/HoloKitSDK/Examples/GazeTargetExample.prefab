@@ -126,7 +126,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  KeysToListenOnGaze: 2400000022000000
+  KeysToListenOnGaze: 24000000220000001f000000
   KeyDownOnGaze:
     m_PersistentCalls:
       m_Calls:

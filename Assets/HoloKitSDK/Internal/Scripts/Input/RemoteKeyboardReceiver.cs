@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System;
 using System.Net;
 using System.Text;
+using System.Runtime.InteropServices;
 
 namespace HoloKit
 {
@@ -52,6 +53,8 @@ namespace HoloKit
             {
                 Debug.LogError("Failed to start UDP receiver.");
             }
+
+            InstallKeyCommandHandler();
         }
 
         void Update()
@@ -80,6 +83,22 @@ namespace HoloKit
             isDestroyed = true;
         }
 
+        public void OnKeyCommand(string msg) {
+            Debug.Log("KeyCommand: " + msg);
+
+            lock (((ICollection)keyStrokes).SyncRoot)
+            {
+                foreach (char key in msg)
+                {
+                    keyStrokes.Add(new KeyStroke
+                    {
+                        key = key,
+                        frame = frameCount + 1
+                    });
+                }
+            }
+        }
+
         private void udpReceive(IAsyncResult res)
         {
             IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 5555);
@@ -106,5 +125,12 @@ namespace HoloKit
                 client.BeginReceive(new AsyncCallback(udpReceive), null);
             }
         }
+
+        #if UNITY_IOS
+        [DllImport ("__Internal")]
+        private static extern void InstallKeyCommandHandler();
+        #else
+        private void InstallKeyCommandHandler() { }          
+        #endif
     }
 }

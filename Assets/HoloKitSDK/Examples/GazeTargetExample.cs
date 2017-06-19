@@ -43,6 +43,10 @@ public class GazeTargetExample : MonoBehaviour {
                 color = Color.yellow;
                 break;
 
+            case HoloKitKeyCode.U:
+                color = Color.cyan;
+                break;
+
             default:
                 color = Color.black;
                 break;
