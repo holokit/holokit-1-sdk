@@ -6,8 +6,8 @@ For detailed manual, please see [HoloKitSDK Reference Manual](docs/MANUAL.md).
 ## Prerequists
 * You must be an [Apple Developer](https://developer.apple.com/programs/). 
 * An iOS device that supports ARKit and running iOS 11.
-  * We tested HoloKitSDK with iPhone 7 Plus. 
-  * See below for guidance on upgrading to iOS 11 beta. 
+    * We tested HoloKitSDK with iPhone 7 Plus. 
+    * See below for guidance on upgrading to iOS 11 beta. 
 * [Unity 5.6.1p3](http://beta.unity3d.com/download/ede8e3f4adbd/UnityDownloadAssistant-5.6.1p3.dmg?_ga=2.258563906.935844948.1497834147-2116713852.1480749648) or later. Make sure you installed iOS components.
 * [XCode 9 Beta](https://developer.apple.com/download/). You need to log in with your Apple Developer account. 
 
