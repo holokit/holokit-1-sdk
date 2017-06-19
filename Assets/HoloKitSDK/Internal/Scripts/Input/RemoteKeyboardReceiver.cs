@@ -53,8 +53,6 @@ namespace HoloKit
             {
                 Debug.LogError("Failed to start UDP receiver.");
             }
-
-            InstallKeyCommandHandler();
         }
 
         void Update()
@@ -73,7 +71,7 @@ namespace HoloKit
             }
         }
 
-        void OnDestroy()
+        public override void OnDestroy()
         {
             if (client != null)
             {
@@ -81,6 +79,8 @@ namespace HoloKit
             }
 
             isDestroyed = true;
+
+            base.OnDestroy();
         }
 
         public void OnKeyCommand(string msg) {
@@ -130,7 +130,8 @@ namespace HoloKit
         [DllImport ("__Internal")]
         private static extern void InstallKeyCommandHandler();
         #else
-        private void InstallKeyCommandHandler() { }          
+        private void InstallKeyCommandHandler() {}          
+        }
         #endif
     }
 }
