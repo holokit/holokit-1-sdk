@@ -26,8 +26,14 @@ namespace HoloKit
             }
         }
 
+#region Inspector Properties
         public SeeThroughMode SeeThroughMode;
 
+        public bool DisplayCameraModeSwitchButton = true;
+
+        public HoloKitKeyCode SeeThroughModeToggleKey = HoloKitKeyCode.None;
+
+        [Header("Prefab variables. Do not change.")]
         [Range(0, 0.5f)]
         public float fovCenterOffset;
 
@@ -35,14 +41,18 @@ namespace HoloKit
         public Transform HoloKitOffset;
         public Camera LeftCamera;
         public Camera RightCamera;
+#endregion
 
+#region Private Properties
         private BarrelDistortion leftBarrel;
         private BarrelDistortion rightBarrel;
 
         private int centerCullingMask;
 
         private UnityARVideo arKitVideo;
+#endregion
 
+#region Getter/Setters for parameter tuning / loading. 
         public override float FOV
         {
             get
@@ -108,6 +118,7 @@ namespace HoloKit
                 fovCenterOffset = value;
             }
         }
+#endregion
 
         public Transform CurrentEyeCenter {
             get {
@@ -125,11 +136,13 @@ namespace HoloKit
 
         void OnGUI()
         {
-            if (GUI.Button(new Rect(Screen.width - 75, 0, 75, 75), "C"))
-            {
-                SeeThroughMode = (SeeThroughMode == SeeThroughMode.Video) 
-                    ? SeeThroughMode.HoloKit 
-                    : SeeThroughMode.Video;
+            if (DisplayCameraModeSwitchButton) {
+                if (GUI.Button(new Rect(Screen.width - 75, 0, 75, 75), "C"))
+                {
+                    SeeThroughMode = (SeeThroughMode == SeeThroughMode.Video) 
+                        ? SeeThroughMode.HoloKit 
+                        : SeeThroughMode.Video;
+                }
             }
         }
 
@@ -145,6 +158,13 @@ namespace HoloKit
             {
                 leftBarrel.Offset = fovCenterOffset;
                 rightBarrel.Offset = -fovCenterOffset;
+            }
+
+            if (HoloKitInputManager.Instance.GetKeyDown(SeeThroughModeToggleKey)) 
+            {
+                SeeThroughMode = (SeeThroughMode == SeeThroughMode.Video)
+                    ? SeeThroughMode.HoloKit
+                    : SeeThroughMode.Video;
             }
         }
 
