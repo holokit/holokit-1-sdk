@@ -101,12 +101,12 @@ namespace HoloKit {
         void Update()
         {
             if (Input.GetKeyDown(KeyCode.DownArrow) ||
-                RemoteKeyboardReceiver.Instance.GetKeyDown('s'))
+                HoloKitInputManager.Instance.GetKeyDown(HoloKitKeyCode.S))
             {
                 SelectedIndex = (SelectedIndex + 1) % calibrationParams.Count;
             }
             else if (Input.GetKeyDown(KeyCode.UpArrow) ||
-              RemoteKeyboardReceiver.Instance.GetKeyDown('w'))
+              HoloKitInputManager.Instance.GetKeyDown(HoloKitKeyCode.W))
             {
                 int selected = (SelectedIndex - 1) % calibrationParams.Count;
                 if (selected < 0)
@@ -116,17 +116,17 @@ namespace HoloKit {
                 SelectedIndex = selected;
             }
             else if (Input.GetKeyDown(KeyCode.Period) ||
-              RemoteKeyboardReceiver.Instance.GetKeyDown('q'))
+              HoloKitInputManager.Instance.GetKeyDown(HoloKitKeyCode.Q))
             {
                 deltaPows[SelectedIndex]++;
             }
             else if (Input.GetKeyDown(KeyCode.Comma) ||
-              RemoteKeyboardReceiver.Instance.GetKeyDown('e'))
+              HoloKitInputManager.Instance.GetKeyDown(HoloKitKeyCode.E))
             {
                 deltaPows[SelectedIndex]--;
             }
             else if (Input.GetKey(KeyCode.RightArrow) ||
-              RemoteKeyboardReceiver.Instance.GetKeyDown('d'))
+              HoloKitInputManager.Instance.GetKeyDown(HoloKitKeyCode.D))
             {
                 CalibrationParam param = calibrationParams[SelectedIndex];
                 float value = param.ValueOnUpdate();
@@ -134,7 +134,7 @@ namespace HoloKit {
                 param.SetValue(value);
             }
             else if (Input.GetKey(KeyCode.LeftArrow) ||
-              RemoteKeyboardReceiver.Instance.GetKeyDown('a'))
+              HoloKitInputManager.Instance.GetKeyDown(HoloKitKeyCode.A))
             {
                 CalibrationParam param = calibrationParams[SelectedIndex];
                 float value = param.ValueOnUpdate();
