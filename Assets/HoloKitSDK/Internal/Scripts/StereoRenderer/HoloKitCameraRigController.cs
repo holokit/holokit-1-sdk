@@ -132,6 +132,8 @@ namespace HoloKit
             rightBarrel = RightCamera.GetComponent<BarrelDistortion>();
             centerCullingMask = CenterCamera.cullingMask;
             arKitVideo = CenterCamera.GetComponent<UnityARVideo>();
+
+            HoloKitCalibration.LoadDefaultCalibration(this);
         }
 
         void OnGUI()
