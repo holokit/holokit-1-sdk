@@ -372,10 +372,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 971fce27786764c6b917f7e3a4b466a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SeeThroughMode: 0
+  SeeThroughMode: 1
   DisplayCameraModeSwitchButton: 1
-  SeeThroughModeToggleKey: 13
-  fovCenterOffset: 0
+  SeeThroughModeToggleKey: 30
+  fovCenterOffset: 0.03
   CenterCamera: {fileID: 20837122590929416}
   HoloKitOffset: {fileID: 4912506455225298}
   LeftCamera: {fileID: 20540438989666758}
