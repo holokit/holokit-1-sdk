@@ -44,11 +44,20 @@ namespace HoloKit
             else if (PlacementOnTouch && HoloKitInputManager.Instance.GetTouchBegan(out touchPosition))
             {
                 var screenPosition = Camera.main.ScreenToViewportPoint(new Vector3(touchPosition.x, touchPosition.y, 0));
-                hitTestPosition = new ARPoint
+
+                // Make a safe area
+                if (screenPosition.x > 0.2f &&
+                    screenPosition.x < 0.8f &&
+                    screenPosition.y > 0.2f &&
+                    screenPosition.y < 0.8f) 
                 {
-                    x = screenPosition.x,
-                    y = screenPosition.y,
-                };
+                    hitTestPosition = new ARPoint
+                    {
+                        x = screenPosition.x,
+                        y = screenPosition.y,
+                    };
+                }
+
             }
 
             if (hitTestPosition.HasValue)
