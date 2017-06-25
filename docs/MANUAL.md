@@ -74,4 +74,21 @@
 ![Screenshot](../images/gaze.png)
 
 ## Calibrate for HoloKit Hardware
+### Use the parameter tuner
+1. Drag prefab "CalibrationCanvas" to your scene or simply open "Calibration" scene from "Examples" folder. Then when you run your app, you'll see a small parameter tuner in the corner.
+    * ![Screenshot](../images/param_tuner.png)
+2. Connect a Bluetooth keyboard to your device, or use the remote keyboard mentioned above. Use the following keys to adjust parameters:
+    * W/S: Select which parameter to tune
+    * A/D: Adjust the value of selected parameter
+    * Q/E: Change the delta (increasement) for the selected parameter
+3. After you're satisfied with the results, unfortunately you need to manually copy the value to "HoloKitCalibration.cs". Currently we have two groups of parameters, one for 5.5inch iPhone (6s Plus, 7 Plus) and one for 4.5inch (6s, 7). 
 
+### Parameters
+* Offset X/Y/Z `Vector3 CameraOffset` The offset from the VideoSeeThroughCamera (i.e., the reported position by ARKit), to the center of Left/Right Eye cameras, in meters, Unity's coordinate space. The value corresponds to the local position of GameObject "HoloKitOffset". 
+* FOV `float FOV`: The vertical field of view of Left/Right Eye cameras. 
+* Barrel `float BarrelRadius`: The Radius of Barrel Distortion applied to Left/Right Eye cameras. 
+* IPD `float PulpilDistance`: The distance between Left/Right Eye cameras, in meters.
+* FOVOff `float FOVCenterOffset`: The offset from the center of half-screen to the center of the viewport of Left/Right Eye cameras, in normalized screen coordinate. For example, if FOVOff = 0, then the viewport center of Left/Right eye cameras will be (0.25, 0.5) and (0.75, 0.5) respectively. If FOVOff = 0.03, then the viewport center will be (0.22, 0.5) and (0.78, 0.5). 
+
+### How to add more parameters to the tuner UI
+* Edit "CalibrationTuner.cs", and add more `CreateParam(...)` calls to its `Start()`. 
