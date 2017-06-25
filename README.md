@@ -12,7 +12,7 @@ For detailed manual, please see [HoloKitSDK Reference Manual](docs/MANUAL.md).
 * [XCode 9 Beta](https://developer.apple.com/download/). You need to log in with your Apple Developer account. 
 
 ## Quick Start
-1. Download [HoloKitSDK.unitypackage](https://bitbucket.org/ambergarage/holokitsdk/raw/4b5b54c7571ff496facbbd47694d99c312666672/HoloKitSDK.unitypackage) and import it into a new Unity project.
+1. Download [HoloKitSDK.unitypackage](HoloKitSDK.unitypackage) and import it into a new Unity project.
 2. You might be prompted to switch to iOS platform. If so please go ahead and switch. 
 3. Open the example scene "HoloKitSDK/Examples/CubeOnTheFloor".
 4. Open "File" -> "Build Settings" and click "Build". 
