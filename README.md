@@ -28,7 +28,8 @@ For detailed manual, please see [HoloKitSDK Reference Manual](docs/MANUAL.md).
     * ![Sample](images/app1.png)
 10. The app detects planes, and you may click on the screen to place the cube on the plane. 
     * ![Sample](images/app2.png)
-11. You may touch the small "C" button to switch to HoloKit mode. ![Sample](images/app3.png)
+11. You may touch the small "C" button to switch to HoloKit mode. 
+    * ![Sample](images/app3.png)
 
 ## Create your own experience
 1. Create a new scene in Unity. 
