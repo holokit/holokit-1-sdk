@@ -59,22 +59,40 @@ namespace HoloKit {
                 deltaPow: -2
             );
 
-            CreateParam("FOV",
-                () => phoneSpaceController.FOV,
+            CreateParam("RedDistortionFactor",
+                () => phoneSpaceController.RedDistortionFactor,
                 (value) =>
                 {
-                    phoneSpaceController.FOV = value;
-                },
-                deltaPow: 0
-            );
-
-            CreateParam("Barrel",
-                () => phoneSpaceController.BarrelRadius,
-                (value) =>
-                {
-                    phoneSpaceController.BarrelRadius = value;
+                    phoneSpaceController.RedDistortionFactor = value;
                 },
                 deltaPow: -3
+            );
+
+            CreateParam("BlueDistortionFactor",
+                () => phoneSpaceController.BlueDistortionFactor,
+                (value) =>
+                {
+                    phoneSpaceController.BlueDistortionFactor = value;
+                },
+                deltaPow: -3
+            );
+
+            CreateParam("GreenDistortionFactor",
+                () => phoneSpaceController.GreenDistortionFactor,
+                (value) =>
+                {
+                    phoneSpaceController.GreenDistortionFactor = value;
+                },
+                deltaPow: -3
+            );
+
+            CreateParam("BarrelDistortionFactor",
+                () => phoneSpaceController.BarrelDistortionFactor,
+                (value) =>
+                {
+                    phoneSpaceController.BarrelDistortionFactor = value;
+                },
+                deltaPow: -2
             );
 
             CreateParam("IPD",
@@ -84,15 +102,6 @@ namespace HoloKit {
                     phoneSpaceController.PupilDistance = value;
                 },
                 deltaPow: -3
-            );
-
-            CreateParam("FOVOff",
-                () => phoneSpaceController.FOVCenterOffset,
-                (value) =>
-                {
-                    phoneSpaceController.FOVCenterOffset = value;
-                },
-                deltaPow: -2
             );
 
             SelectedIndex = 0;

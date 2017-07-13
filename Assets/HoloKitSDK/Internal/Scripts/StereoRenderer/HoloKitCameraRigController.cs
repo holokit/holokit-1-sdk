@@ -43,6 +43,11 @@ namespace HoloKit
         public float screenToFresnelDistance;
         public float fresnelToEyeDistance;
         public float pupilDistance;
+        public float viewportHeightRatio;
+        public float redDistortionFactor;
+        public float greenDistortionFactor;        
+        public float blueDistortionFactor;
+        public float barrelDistortionFactor;
 
         public Camera CenterCamera;
         public Transform HoloKitOffset;
@@ -61,42 +66,6 @@ namespace HoloKit
 #endregion
 
 #region Getter/Setters for parameter tuning / loading. 
-        public override float FOV
-        {
-            get
-            {
-                return LeftCamera.fieldOfView;
-            }
-            set
-            {
-                LeftCamera.fieldOfView = value;
-                RightCamera.fieldOfView = value;
-            }
-        }
-
-        public float MagnificationFactor
-        {
-            get
-            {
-                return fresnelLensFocalLength / (fresnelLensFocalLength - screenToFresnelDistance);
-            }
-        }
-
-
-        public override float BarrelRadius
-        {
-            get
-            {
-                return leftBarrel.FovRadians;
-            }
-            set
-            {
-                leftBarrel.FovRadians = value;
-                rightBarrel.FovRadians = value;
-            }
-        }
-
-      
         public override float PupilDistance
         {
             get
@@ -191,20 +160,71 @@ namespace HoloKit
             }
         }
 
-
-        public override float FOVCenterOffset
+        public override float ViewportHeightRatio
         {
             get
             {
-                return fovCenterOffset;
+                return viewportHeightRatio;
             }
 
             set
             {
-                fovCenterOffset = value;
+                viewportHeightRatio = value;
             }
         }
 
+        public override float RedDistortionFactor
+        {
+            get
+            {
+                return redDistortionFactor;
+            }
+
+            set
+            {
+                redDistortionFactor = value;
+            }
+        }
+
+        public override float GreenDistortionFactor
+        {
+            get
+            {
+                return greenDistortionFactor;
+            }
+
+            set
+            {
+                greenDistortionFactor = value;
+            }
+        }
+
+        public override float BlueDistortionFactor
+        {
+            get
+            {
+                return blueDistortionFactor;
+            }
+
+            set
+            {
+                blueDistortionFactor = value;
+            }
+        }
+
+        public override float BarrelDistortionFactor
+        {
+            get
+            {
+                return barrelDistortionFactor;
+            }
+
+            set
+            {
+                barrelDistortionFactor = value;
+            }
+        }
+        
 #endregion
 
         public Transform CurrentEyeCenter {
@@ -214,10 +234,12 @@ namespace HoloKit
         }
         
         void UpdateProjectMatrix() {
-            float renderWidth = MagnificationFactor * PhoneScreenHeight / 2;
-            float renderHeight = MagnificationFactor * PhoneScreenWidth;
-            float renderInnerEyeWidth = MagnificationFactor * PupilDistance / 2;
-            float near = MagnificationFactor * FresnelToEyeDistance;
+            float magnificationFactor = fresnelLensFocalLength / (fresnelLensFocalLength - screenToFresnelDistance);
+            float renderScale = 1;
+            float renderWidth = renderScale * PhoneScreenHeight / 2;
+            float renderHeight = renderScale * PhoneScreenWidth * ViewportHeightRatio;
+            float renderInnerEyeWidth = renderScale * PupilDistance / 2;
+            float near = renderScale * FresnelToEyeDistance;
             float far = 1000;
             
             Matrix4x4 leftEyeProjectionMatrix = Matrix4x4.zero;
@@ -228,17 +250,27 @@ namespace HoloKit
             leftEyeProjectionMatrix[2, 3] = -(2.0F * far * near) / (far - near);
             leftEyeProjectionMatrix[3, 2] = -1.0F;
 
-            LeftCamera.projectionMatrix = leftEyeProjectionMatrix;
-
             Matrix4x4 rightEyeProjectionMatrix = leftEyeProjectionMatrix;
             rightEyeProjectionMatrix[0, 2] = (renderWidth - 2 * renderInnerEyeWidth) / renderWidth;
-            RightCamera.projectionMatrix = rightEyeProjectionMatrix;
 
-            Debug.Log("renderWidth:" + renderWidth);
-            Debug.Log("renderHeight:" + renderWidth);
-            Debug.Log("renderInnerEyeWidth:" + renderWidth);
-            Debug.Log("near:" + near);
-            Debug.Log("far:" + far);
+            LeftCamera.projectionMatrix = leftEyeProjectionMatrix;
+            LeftCamera.rect = new Rect(0.0f, 0.0f, 0.5f, ViewportHeightRatio);
+            RightCamera.projectionMatrix = rightEyeProjectionMatrix;
+            RightCamera.rect = new Rect(0.5f, 0.0f, 0.5f, ViewportHeightRatio);
+
+            leftBarrel.RedDistortionFactor = RedDistortionFactor;
+            leftBarrel.GreenDistortionFactor = GreenDistortionFactor;
+            leftBarrel.BlueDistortionFactor = BlueDistortionFactor;
+            leftBarrel.BarrelDistortionFactor = BarrelDistortionFactor;
+            leftBarrel.VerticalOffsetFactor = 0f;
+            leftBarrel.HorizontalOffsetFactor = 0.5f - renderInnerEyeWidth / renderWidth;
+
+            rightBarrel.RedDistortionFactor = RedDistortionFactor;
+            rightBarrel.GreenDistortionFactor = GreenDistortionFactor;
+            rightBarrel.BlueDistortionFactor = BlueDistortionFactor;
+            rightBarrel.BarrelDistortionFactor = BarrelDistortionFactor;
+            rightBarrel.VerticalOffsetFactor = 0f;
+            rightBarrel.HorizontalOffsetFactor = renderInnerEyeWidth / renderWidth - 0.5f;
         }
 
         void Start()
@@ -271,12 +303,6 @@ namespace HoloKit
 
             arKitVideo.enabled = (SeeThroughMode == SeeThroughMode.Video);
             CenterCamera.cullingMask = (SeeThroughMode == SeeThroughMode.Video) ? centerCullingMask : 0;
-
-            if (SeeThroughMode == SeeThroughMode.HoloKit)
-            {
-                leftBarrel.Offset = fovCenterOffset;
-                rightBarrel.Offset = -fovCenterOffset;
-            }
 
             if (HoloKitInputManager.Instance.GetKeyDown(SeeThroughModeToggleKey)) 
             {

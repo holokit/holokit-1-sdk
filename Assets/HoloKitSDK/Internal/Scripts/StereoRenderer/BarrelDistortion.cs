@@ -6,10 +6,18 @@ namespace HoloKit {
     [RequireComponent(typeof(Camera))]
     public class BarrelDistortion : PostEffectsBase
     {
-        public float FovRadians = 1.69f;
-
-        [Range(-1, 1)]
-        public float Offset = 0f;
+        [Range(-0.01f, 0.01f)]
+        public float RedDistortionFactor = 0f;
+        [Range(-0.01f, 0.01f)]
+        public float GreenDistortionFactor = 0f;
+        [Range(-0.01f, 0.01f)]
+        public float BlueDistortionFactor = 0f;
+        [Range(-5f, 5f)]
+        public float BarrelDistortionFactor = 0f;
+        [Range(-0.5f, 0.5f)]
+        public float HorizontalOffsetFactor = 0f;
+        [Range(-0.5f, 0.5f)]
+        public float VerticalOffsetFactor = 0f;
 
         public Shader BarrelDistortionShader = null;
         public Material BarrelDistortionMaterial = null;
@@ -21,8 +29,12 @@ namespace HoloKit {
                 Graphics.Blit(src, dest);
             }
 
-            BarrelDistortionMaterial.SetFloat("_FOV", FovRadians);
-            BarrelDistortionMaterial.SetFloat("_Offset", Offset);
+            BarrelDistortionMaterial.SetFloat("_RedDistortionFactor", RedDistortionFactor);
+            BarrelDistortionMaterial.SetFloat("_GreenDistortionFactor", GreenDistortionFactor);
+            BarrelDistortionMaterial.SetFloat("_BlueDistortionFactor", BlueDistortionFactor);
+            BarrelDistortionMaterial.SetFloat("_BarrelDistortionFactor", BarrelDistortionFactor);
+            BarrelDistortionMaterial.SetFloat("_HorizontalOffsetFactor", HorizontalOffsetFactor);
+            BarrelDistortionMaterial.SetFloat("_VerticalOffsetFactor", VerticalOffsetFactor);
 
             Graphics.Blit(src, dest, BarrelDistortionMaterial);
         }

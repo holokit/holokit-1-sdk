@@ -74,7 +74,7 @@ enum UnityARTrackingState
 enum UnityARTrackingReason
 {
     UnityARTrackingStateReasonNone,
-    UnityARTrackingStateReasonLowLight,
+    UnityARTrackingStateReasonInitializing,
     UnityARTrackingStateReasonExcessiveMotion,
     UnityARTrackingStateReasonInsufficientFeatures,
 };
@@ -143,6 +143,8 @@ static inline UnityARTrackingReason GetUnityARTrackingReasonFromARTrackingReason
     {
         case ARTrackingStateReasonNone:
             return UnityARTrackingStateReasonNone;
+        case ARTrackingStateReasonInitializing:
+            return UnityARTrackingStateReasonInitializing;
         case ARTrackingStateReasonExcessiveMotion:
             return UnityARTrackingStateReasonExcessiveMotion;
         case ARTrackingStateReasonInsufficientFeatures:

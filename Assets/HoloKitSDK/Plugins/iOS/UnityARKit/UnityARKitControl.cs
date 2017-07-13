@@ -63,9 +63,9 @@ namespace UnityEngine.XR.iOS
                 currentAlignmentIndex = (currentAlignmentIndex + 1) % 3;
             }
 
-            string planeOptionStr = (currentPlaneIndex == 0 ? "Both" : (currentPlaneIndex == 1 ? "Horizontal" : (currentPlaneIndex == 2 ? "Vertical" : "None")));
+			string planeOptionStr = currentPlaneIndex == 0 ? "Horizontal":  "None";
             if (GUI.Button (new Rect (500, 200, 150, 50), "PlaneOption:" + planeOptionStr)) {
-                currentPlaneIndex = (currentPlaneIndex + 1) % 4;
+                currentPlaneIndex = (currentPlaneIndex + 1) % 2;
             }
         }
     }

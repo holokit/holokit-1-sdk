@@ -6,31 +6,38 @@ namespace HoloKit {
     public static class HoloKitCalibration {
         private static void loadiPhone55InchCalibration(HoloKitCameraRigController cameraRig) 
         {
-            cameraRig.CameraOffset = new Vector3(0.06958f, -0.1037f, -0.090f);
-            cameraRig.FOV = 49f;
-            cameraRig.FOVCenterOffset = 0f;
-
+            cameraRig.CameraOffset = new Vector3(0.06960f, -0.10945f, -0.09065f - 0.012f);
             cameraRig.PupilDistance = 0.064f;
             cameraRig.PhoneScreenHeight = 0.122f;
             cameraRig.PhoneScreenWidth = 0.068f;
             cameraRig.FresnelLensFocalLength = 0.090f;
-            cameraRig.ScreenToFresnelDistance = 0.0745f;
-            cameraRig.FresnelToEyeDistance = 0.083f;
+            cameraRig.ScreenToFresnelDistance = 0.0762f;
+            cameraRig.FresnelToEyeDistance = 0.085f + 0.012f;
+            cameraRig.ViewportHeightRatio = 0.889f;
+
+            cameraRig.RedDistortionFactor = 0f;
+            cameraRig.GreenDistortionFactor = 0f;
+            cameraRig.BlueDistortionFactor = 0f;
+            cameraRig.BarrelDistortionFactor = 1.6f;
 
             Debug.Log("Calibration data loaded for 5.5 inch device. ");
         }
 
         private static void loadiPhone45InchCalibration(HoloKitCameraRigController cameraRig) 
         {
-            cameraRig.CameraOffset = new Vector3(0.069f, -0.0937f, -0.090f);
-            cameraRig.FOV = 49f;
-            cameraRig.FOVCenterOffset = 0f;
+            cameraRig.CameraOffset = new Vector3(0.05915f, -0.09893f, -0.09025f - 0.012f);
             cameraRig.PupilDistance = 0.064f;
             cameraRig.PhoneScreenHeight = 0.104f;
             cameraRig.PhoneScreenWidth = 0.058f;
             cameraRig.FresnelLensFocalLength = 0.090f;
-            cameraRig.ScreenToFresnelDistance = 0.0745f;
-            cameraRig.FresnelToEyeDistance = 0.083f;
+            cameraRig.ScreenToFresnelDistance = 0.0762f;
+            cameraRig.FresnelToEyeDistance = 0.085f + 0.012f;
+            cameraRig.ViewportHeightRatio = 1.0f;
+
+            cameraRig.RedDistortionFactor = 0f;
+            cameraRig.GreenDistortionFactor = 0f;
+            cameraRig.BlueDistortionFactor = 0f;
+            cameraRig.BarrelDistortionFactor = 1.6f;
 
             Debug.Log("Calibration data loaded for 4.5 inch device. ");
         }
@@ -51,7 +58,7 @@ namespace HoloKit {
                     break;
 
                 default:
-                    loadiPhone45InchCalibration(cameraRig);
+                    loadiPhone55InchCalibration(cameraRig);
                     Debug.LogWarning("Your iOS device is not officially supported by HoloKitSDK.");
                     break;
             }

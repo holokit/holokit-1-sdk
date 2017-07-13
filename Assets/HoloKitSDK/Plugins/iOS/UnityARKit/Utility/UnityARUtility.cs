@@ -46,15 +46,6 @@ namespace UnityEngine.XR.iOS
                 mf.gameObject.transform.localPosition = new Vector3(arPlaneAnchor.center.x,arPlaneAnchor.center.y, -arPlaneAnchor.center.z);
 			}
 
-            Vector3 planePos = plane.transform.position;
-            Vector3 cameraPos = Camera.main.transform.position;
-            Vector3 offset = planePos - cameraPos;
-            Debug.Log(string.Format("New Anchor: {0}, {1}, {2}",
-                offset.x,
-                offset.y,
-                offset.z
-            ));
-
 			return plane;
 		}
 
