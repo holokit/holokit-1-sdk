@@ -374,7 +374,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SeeThroughMode: 1
   DisplayCameraModeSwitchButton: 1
-  SeeThroughModeToggleKey: 30
+  SeeThroughModeToggleKey: 12
   fovCenterOffset: 0.03
   CenterCamera: {fileID: 20837122590929416}
   HoloKitOffset: {fileID: 4912506455225298}
