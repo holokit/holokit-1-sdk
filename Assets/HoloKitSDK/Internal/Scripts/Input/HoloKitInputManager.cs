@@ -124,6 +124,14 @@ namespace HoloKit
         UtopiaD = N,     // Back
         UtopiaFire1 = V, // Fire
         UtopiaFire2 = G, // Fire
+        UtopiaForward = A,
+        UtopiaBackward = D,
+        UtopiaLeft = X,
+        UtopiaRight = W,
+        UtopiaForwardUp = Q,
+        UtopiaBackwardUp = C,
+        UtopiaLeftUp = Z,
+        UtopiaRightUp = E,
     }
 
     public enum HoloKitInputType

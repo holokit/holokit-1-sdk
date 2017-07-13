@@ -150,8 +150,9 @@ static inline UnityARTrackingReason GetUnityARTrackingReasonFromARTrackingReason
         case ARTrackingStateReasonInsufficientFeatures:
             return UnityARTrackingStateReasonInsufficientFeatures;
         default:
-            [NSException raise:@"UnrecognizedARTrackingStateReason" format:@"Unrecognized ARTrackingStateReason: %ld", (long)trackingReason];
-            break;
+            return UnityARTrackingStateReasonNone;
+            // [NSException raise:@"UnrecognizedARTrackingStateReason" format:@"Unrecognized ARTrackingStateReason: %ld", (long)trackingReason];
+            // break;
     }
 }
 
