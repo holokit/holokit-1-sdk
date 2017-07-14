@@ -52,6 +52,10 @@ namespace UnityEngine.XR.iOS
 
         public void Destroy()
         {
+			UnityARSessionNativeInterface.ARAnchorAddedEvent -= AddAnchor;
+			UnityARSessionNativeInterface.ARAnchorUpdatedEvent -= UpdateAnchor;
+			UnityARSessionNativeInterface.ARAnchorRemovedEvent -= RemoveAnchor;
+
             foreach (ARPlaneAnchorGameObject arpag in GetCurrentPlaneAnchors()) {
                 GameObject.Destroy (arpag.gameObject);
             }

@@ -383,5 +383,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bff50db40c864072a79f2478b74d27c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlacementKey: 28
+  PlacementKey: 16
   PlacementOnTouch: 1
