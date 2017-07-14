@@ -28,6 +28,10 @@ namespace HoloKit
         public LayerMask RaycastMask;
 
         private HoloKitGazeTarget currentTarget;
+        public HoloKitGazeTarget CurrentTarget {
+            get {return currentTarget;}
+        }
+
         private Vector3 initialScale;
 
         void Start()
