@@ -5,14 +5,14 @@ For detailed manual, please see [HoloKitSDK Reference Manual](docs/MANUAL.md).
 
 ## Prerequists
 * You must be an [Apple Developer](https://developer.apple.com/programs/). 
-* An iOS device that supports ARKit and running iOS 11.
+* An iOS device that supports ARKit and running iOS 11 beta 3.
     * We tested HoloKitSDK with iPhone 7 Plus. 
-    * See below for guidance on upgrading to iOS 11 beta. 
-* [Unity 5.6.1p3](http://beta.unity3d.com/download/ede8e3f4adbd/UnityDownloadAssistant-5.6.1p3.dmg?_ga=2.258563906.935844948.1497834147-2116713852.1480749648) or later. Make sure you installed iOS components.
-* [XCode 9 Beta](https://developer.apple.com/download/). You need to log in with your Apple Developer account. 
+    * See below for guidance on upgrading to iOS 11 beta 3. 
+* [Unity 5.6.2pf](https://unity3d.com/get-unity/download?thank-you=update&download_nid=47271&os=Mac) or later. Make sure you installed iOS components.
+* [XCode 9 Beta 3](https://developer.apple.com/download/). You need to log in with your Apple Developer account. 
 
 ## Quick Start
-1. Download [HoloKitSDK.unitypackage](HoloKitSDK.unitypackage) and import it into a new Unity project.
+1. Import "HoloKitSDK" folder under "Assets" folder into a new Unity project.
 2. You might be prompted to switch to iOS platform. If so please go ahead and switch. 
 3. Open the example scene "HoloKitSDK/Examples/CubeOnTheFloor".
 4. Open "File" -> "Build Settings" and click "Build". 
@@ -41,7 +41,7 @@ For detailed manual, please see [HoloKitSDK Reference Manual](docs/MANUAL.md).
   
 ## How to upgrade to iOS 11 Beta
 1. Backup your device. See "Prepare your device before you update to beta software" section in [About iOS beta software](https://support.apple.com/en-us/HT203282)
-2. Follow [iOS beta Software Installation Guide](https://developer.apple.com/support/beta-software/install-ios-beta/) to install iOS 11 Beta. Briefly,
+2. Follow [iOS beta Software Installation Guide](https://developer.apple.com/support/beta-software/install-ios-beta/) to install iOS 11 Beta 3. Briefly,
     1. Use Safari on your **iOS device** to open [https://developer.apple.com](https://developer.apple.com) and login with your Apple Developer account.
     2. Go to [https://developer.apple.com/download](https://developer.apple.com/download) and click "Download" button for iOS 11 beta. 
         * ![Screenshot](images/iOS11Download.png)
