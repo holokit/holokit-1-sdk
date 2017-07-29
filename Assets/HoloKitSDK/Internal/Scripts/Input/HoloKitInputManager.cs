@@ -50,6 +50,16 @@ namespace HoloKit
         public bool GetTouchBegan(out Vector2 position)
         {
             position = Vector2.zero;
+            if (Application.isEditor) {
+                if (Input.GetMouseButtonDown(0)) {
+                    position = Input.mousePosition;
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+
             if (Input.touchCount == 0)
             {
                 return false;
