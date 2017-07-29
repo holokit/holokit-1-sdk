@@ -16,7 +16,7 @@ namespace HoloKit.Editor
 
         private static void EditorUpdate()
         {
-            checkPlatform();
+            // checkPlatform();
             checkCameraDescription();
             checkTargetSDKVersion();
             EditorApplication.update -= EditorUpdate;
