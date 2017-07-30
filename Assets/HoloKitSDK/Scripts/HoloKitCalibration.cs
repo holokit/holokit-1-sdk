@@ -44,14 +44,14 @@ namespace HoloKit {
 
         private static void loadZenTangoCalibration(HoloKitCameraRigController cameraRig) 
         {
-            cameraRig.CameraOffset = new Vector3(0.05915f, -0.09893f, -0.09025f - 0.012f);
+            cameraRig.CameraOffset = new Vector3(0.022f, -0.09313f, -0.08595f - 0.012f);
             cameraRig.PupilDistance = 0.064f;
-            cameraRig.PhoneScreenHeight = 0.104f;
-            cameraRig.PhoneScreenWidth = 0.058f;
+            cameraRig.PhoneScreenHeight = 0.125f;
+            cameraRig.PhoneScreenWidth = 0.070f;
             cameraRig.FresnelLensFocalLength = 0.090f;
             cameraRig.ScreenToFresnelDistance = 0.0762f;
             cameraRig.FresnelToEyeDistance = 0.085f + 0.012f;
-            cameraRig.ViewportHeightRatio = 1.0f;
+            cameraRig.ViewportHeightRatio = 0.889f;
 
             cameraRig.RedDistortionFactor = 0f;
             cameraRig.GreenDistortionFactor = 0f;
