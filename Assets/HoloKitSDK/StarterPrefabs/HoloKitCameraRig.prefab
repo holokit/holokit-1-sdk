@@ -60,7 +60,7 @@ GameObject:
   - component: {fileID: 223988600091226368}
   - component: {fileID: 114706059101739800}
   - component: {fileID: 114684800693575948}
-  - component: {fileID: 114232943165146550}
+  - component: {fileID: 114386133596755710}
   m_Layer: 5
   m_Name: Spliter
   m_TagString: Untagged
@@ -77,9 +77,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4223432508466108}
   - component: {fileID: 20837122590929416}
-  - component: {fileID: 114821182241079652}
-  - component: {fileID: 114023904692915178}
-  - component: {fileID: 114508485027567248}
+  - component: {fileID: 114804967003746870}
   m_Layer: 0
   m_Name: VideoSeeThroughCamera
   m_TagString: MainCamera
@@ -112,7 +110,7 @@ GameObject:
   - component: {fileID: 4971306489659478}
   - component: {fileID: 114897530068772180}
   - component: {fileID: 81842865177008472}
-  - component: {fileID: 114488182124302128}
+  - component: {fileID: 114082413694299950}
   m_Layer: 0
   m_Name: HoloKitCameraRig
   m_TagString: Untagged
@@ -157,7 +155,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1666494909141600}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.03, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4912506455225298}
@@ -347,34 +345,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 893ff502ac9844026bffa091d6369f1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FovRadians: 1.69
-  Offset: 0
+  RedDistortionFactor: 0
+  GreenDistortionFactor: 0
+  BlueDistortionFactor: 0
+  BarrelDistortionFactor: 0
+  HorizontalOffsetFactor: 0
+  VerticalOffsetFactor: 0
   BarrelDistortionShader: {fileID: 4800000, guid: d1856b4cfae464790b5513116b7e8f1f,
     type: 3}
   BarrelDistortionMaterial: {fileID: 0}
---- !u!114 &114023904692915178
+--- !u!114 &114082413694299950
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1666494909141600}
+  m_GameObject: {fileID: 1932878497101048}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b58ecea7a196242dd879c814ac05084c, type: 3}
+  m_Script: {fileID: 11500000, guid: 5f0fe6879878e49aab22e27b32350111, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ClearMaterial: {fileID: 2100000, guid: f1d9352050a75486f878ab19fa578f16, type: 2}
---- !u!114 &114232943165146550
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1573455976023566}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be915268997dc41ddbb1fdfa57102f4e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_clutchEnabled: 0
+  m_baseFrameMode: 0
 --- !u!114 &114304208882768182
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -402,27 +394,15 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114488182124302128
+--- !u!114 &114386133596755710
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1932878497101048}
+  m_GameObject: {fileID: 1573455976023566}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 462d46d2423bb4f738d2497a397b1590, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_camera: {fileID: 20837122590929416}
---- !u!114 &114508485027567248
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1666494909141600}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cca6d9321bb464468984d6fffc09a953, type: 3}
+  m_Script: {fileID: 11500000, guid: bbd40c9c488c844a7a2f119faefdbc26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114684800693575948
@@ -462,7 +442,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
---- !u!114 &114821182241079652
+--- !u!114 &114804967003746870
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -470,9 +450,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1666494909141600}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce437cef046e841aabd6070890e79d41, type: 3}
+  m_Script: {fileID: 11500000, guid: 9d2fb8dda2d8e7445a90ba8bcf89f17d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_enableOcclusion: 0
+  m_occlusionShader: {fileID: 4800000, guid: f196a49a50fca482db453a9646bc81f1, type: 3}
 --- !u!114 &114897530068772180
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -484,7 +466,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 971fce27786764c6b917f7e3a4b466a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SeeThroughMode: 1
+  SeeThroughMode: 0
   DisplayCameraModeSwitchButton: 1
   SeeThroughModeToggleKey: 12
   fovCenterOffset: 0.03
@@ -494,6 +476,11 @@ MonoBehaviour:
   screenToFresnelDistance: 0
   fresnelToEyeDistance: 0
   pupilDistance: 0
+  viewportHeightRatio: 0
+  redDistortionFactor: 0
+  greenDistortionFactor: 0
+  blueDistortionFactor: 0
+  barrelDistortionFactor: 0
   CenterCamera: {fileID: 20837122590929416}
   HoloKitOffset: {fileID: 4912506455225298}
   LeftCamera: {fileID: 20540438989666758}
@@ -509,8 +496,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 893ff502ac9844026bffa091d6369f1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FovRadians: 1.69
-  Offset: 0
+  RedDistortionFactor: 0
+  GreenDistortionFactor: 0
+  BlueDistortionFactor: 0
+  BarrelDistortionFactor: 0
+  HorizontalOffsetFactor: 0
+  VerticalOffsetFactor: 0
   BarrelDistortionShader: {fileID: 4800000, guid: d1856b4cfae464790b5513116b7e8f1f,
     type: 3}
   BarrelDistortionMaterial: {fileID: 0}
