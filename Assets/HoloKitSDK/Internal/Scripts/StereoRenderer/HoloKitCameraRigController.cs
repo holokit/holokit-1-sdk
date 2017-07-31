@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
+using Tango;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.XR.iOS;
 
 namespace HoloKit
@@ -64,6 +66,9 @@ namespace HoloKit
 
         // private UnityARVideo arVideo;
         private TangoARScreen arVideo;
+        private TangoApplication tangoApplication;
+        
+        private bool arVideoEnabled = true;
 #endregion
 
 #region Getter/Setters for parameter tuning / loading. 
@@ -281,6 +286,7 @@ namespace HoloKit
             centerCullingMask = CenterCamera.cullingMask;
             // arVideo = CenterCamera.GetComponent<UnityARVideo>();
             arVideo = CenterCamera.GetComponent<TangoARScreen>();
+            tangoApplication = FindObjectOfType<TangoApplication>();
 
             HoloKitCalibration.LoadDefaultCalibration(this);
             UpdateProjectMatrix();
@@ -303,8 +309,19 @@ namespace HoloKit
             LeftCamera.gameObject.SetActive(SeeThroughMode == SeeThroughMode.HoloKit);
             RightCamera.gameObject.SetActive(SeeThroughMode == SeeThroughMode.HoloKit);
 
-            arVideo.enabled = (SeeThroughMode == SeeThroughMode.Video);
-            CenterCamera.cullingMask = (SeeThroughMode == SeeThroughMode.Video) ? centerCullingMask : 0;
+            bool arVideoEnabledNew = (SeeThroughMode == SeeThroughMode.Video);
+            if (arVideoEnabled && !arVideoEnabledNew) {
+                // Turn off ar video
+                Destroy(arVideo);
+                CenterCamera.RemoveAllCommandBuffers();
+            } else if (!arVideoEnabled && arVideoEnabledNew) {
+                // Turn on ar video
+                arVideo = CenterCamera.gameObject.AddComponent<TangoARScreen>();
+            }
+            arVideoEnabled = arVideoEnabledNew;
+
+            tangoApplication.m_enableVideoOverlay = arVideoEnabled;
+            CenterCamera.cullingMask = arVideoEnabled ? centerCullingMask : 0;
 
             if (HoloKitInputManager.Instance.GetKeyDown(SeeThroughModeToggleKey)) 
             {
