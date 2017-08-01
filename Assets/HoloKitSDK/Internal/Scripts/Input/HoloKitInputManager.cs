@@ -6,6 +6,16 @@ namespace HoloKit
 {
     public class HoloKitInputManager : Singleton<HoloKitInputManager>
     {
+        public Dictionary<HoloKitKeyCode, KeyCode> UtopiaIOSToAndroidMapping = new Dictionary<HoloKitKeyCode, KeyCode>()
+        {
+            {HoloKitKeyCode.UtopiaA,  KeyCode.JoystickButton3 },
+            {HoloKitKeyCode.UtopiaB,  KeyCode.JoystickButton0 },
+            {HoloKitKeyCode.UtopiaC,  KeyCode.JoystickButton2 },
+            {HoloKitKeyCode.UtopiaD,  KeyCode.JoystickButton1 },
+            {HoloKitKeyCode.UtopiaFire1,  KeyCode.JoystickButton3 },
+            {HoloKitKeyCode.UtopiaFire2,  KeyCode.JoystickButton0 }
+        };
+
         private List<char> chars = new List<char>(8);
         private List<KeyCode> keyCodes = new List<KeyCode>(8);
 
@@ -118,6 +128,10 @@ namespace HoloKit
             else
             {
                 keyCodes.Add((KeyCode)(int)(keyCode) - (int)(HoloKitKeyCode.A) + (int)KeyCode.A);
+            }
+
+            if (UtopiaIOSToAndroidMapping.ContainsKey(keyCode)) {
+                keyCodes.Add(UtopiaIOSToAndroidMapping[keyCode]);
             }
         }
     }
