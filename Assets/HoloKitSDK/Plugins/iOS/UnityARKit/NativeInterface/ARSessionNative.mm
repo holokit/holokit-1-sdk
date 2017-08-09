@@ -268,7 +268,7 @@ static CGAffineTransform s_CurAffineTransform;
 
     matrix_float4x4 projectionMatrix = [frame.camera projectionMatrixWithViewportSize:nativeSize orientation:[[UIApplication sharedApplication] statusBarOrientation] zNear:(CGFloat)unityCameraNearZ zFar:(CGFloat)unityCameraFarZ];
 
-    s_CurAffineTransform = [frame displayTransformWithViewportSize:nativeSize orientation:[[UIApplication sharedApplication] statusBarOrientation]];
+    s_CurAffineTransform = [frame displayTransformForOrientation:[[UIApplication sharedApplication] statusBarOrientation] viewportSize:nativeSize];
 
     UnityARCamera unityARCamera;
 
