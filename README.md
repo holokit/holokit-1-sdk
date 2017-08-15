@@ -1,5 +1,8 @@
 #HoloKitSDK v1.0
+
 HoloKitSDK is to build AR apps for HoloKit. Currently, we provide the SDK as Unity package, and it runs on iOS devices that supports ARKit. 
+
+For Google Tango support, please checkout "tango" branch. 
 
 For detailed manual, please see [HoloKitSDK Reference Manual](docs/MANUAL.md).
 
@@ -8,7 +11,7 @@ For detailed manual, please see [HoloKitSDK Reference Manual](docs/MANUAL.md).
 * An iOS device that supports ARKit and running iOS 11 beta 5.
     * We tested HoloKitSDK with iPhone 7 Plus. 
     * See below for guidance on upgrading to iOS 11 beta 5. 
-* [Unity 2017.1.0f3](https://unity3d.com/get-unity/download?thank-you=update&download_nid=47271&os=Mac) or later. Make sure you installed iOS components.
+* Unity 2017.1.0f3 or later. Make sure you installed iOS components.
 * [XCode 9 Beta 5](https://developer.apple.com/download/). You need to log in with your Apple Developer account. 
 
 ## Quick Start
@@ -41,7 +44,7 @@ For detailed manual, please see [HoloKitSDK Reference Manual](docs/MANUAL.md).
   
 ## How to upgrade to iOS 11 Beta
 1. Backup your device. See "Prepare your device before you update to beta software" section in [About iOS beta software](https://support.apple.com/en-us/HT203282)
-2. Follow [iOS beta Software Installation Guide](https://developer.apple.com/support/beta-software/install-ios-beta/) to install iOS 11 Beta 3. Briefly,
+2. Follow [iOS beta Software Installation Guide](https://developer.apple.com/support/beta-software/install-ios-beta/) to install iOS 11 Beta. Briefly,
     1. Use Safari on your **iOS device** to open [https://developer.apple.com](https://developer.apple.com) and login with your Apple Developer account.
     2. Go to [https://developer.apple.com/download](https://developer.apple.com/download) and click "Download" button for iOS 11 beta. 
         * ![Screenshot](images/iOS11Download.png)
@@ -57,5 +60,18 @@ For detailed manual, please see [HoloKitSDK Reference Manual](docs/MANUAL.md).
     * Make sure "Automatically manage signing" is checked, and you've logged in with your developer account in "XCode" -> "Preferences" -> "Accounts". 
 * [WIP]
 
-## Contribution
-[WIP]
+## Attribution
+
+You shall read the [How to Attribute](https://holokit.io/#develop) section.
+
+App developer shall mark with the words, "Works with HoloKit", or display either of the following two Holokit Logos in your app.
+
+<img src="https://holokit.io/images/HoloKit_Logo1.png" width="250px">
+
+or 
+<img src="https://holokit.io/images/HoloKit_Logo2.png" width="90px">
+
+
+For academic work, please cite Monocular Visual-Inertial State Estimation for Mobile Augmented Reality, P.Li et al (ISMAR 2017, accepted)
+
+ 
