@@ -1,8 +1,9 @@
-#HoloKitSDK v1.0
+#HoloKitSDK v1.0 (iOS Branch)
 
-HoloKitSDK is to build AR apps for HoloKit. Currently, we provide the SDK as Unity package, and it runs on iOS devices that supports ARKit. 
+HoloKitSDK is to build AR apps for HoloKit. Currently, we provide the SDK as Unity package.
 
-For Google Tango support, please checkout "tango" branch. 
+For Google Tango, please checkout "tango" branch.
+For Apple iOS, please checkout "master" branch. 
 
 For detailed manual, please see [HoloKitSDK Reference Manual](docs/MANUAL.md).
 
