@@ -33,6 +33,7 @@ For detailed manual, please see [HoloKitSDK Reference Manual](docs/MANUAL.md).
 3. Put anything you like under "HoloKitPlacementRoot", and your model should have a comparable size as "DebugCube". Then feel free to turn off or delete "DebugCube". 
     * ![Screenshot](images/whale.png)
 4. Build your scene and run!
+5. If you don't like the ambient light, please disable HoloKitAmbientLight in your scene.
   
 
 ## Attribution
