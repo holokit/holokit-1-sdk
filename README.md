@@ -42,6 +42,8 @@ For detailed manual, please see [HoloKitSDK Reference Manual](docs/MANUAL.md).
 3. Put anything you like under "HoloKitPlacementRoot", and your model should have a comparable size as "DebugCube". Then feel free to turn off or delete "DebugCube". 
     * ![Screenshot](images/whale.png)
 4. Build your scene and run!
+5. If you don't like the ambient light, please disable HoloKitAmbientLight in your scene.
+
   
 ## How to upgrade to iOS 11 Beta
 1. Backup your device. See "Prepare your device before you update to beta software" section in [About iOS beta software](https://support.apple.com/en-us/HT203282)
