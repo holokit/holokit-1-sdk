@@ -9,11 +9,11 @@ public class SplitterModeControl : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        panel = transform.GetChild(0).gameObject;
+        	panel = transform.GetChild(0).gameObject;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        panel.SetActive(HoloKitCameraRigController.Instance.SeeThroughMode == SeeThroughMode.HoloKit);
+        	panel.SetActive(HoloKitCameraRigController.Instance.SeeThroughMode == SeeThroughMode.HoloKit);
 	}
 }
