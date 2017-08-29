@@ -1,19 +1,20 @@
 #HoloKitSDK v1.0 (iOS Branch)
 
-HoloKitSDK is to build AR apps for HoloKit. Currently, we provide the SDK as Unity package.
+HoloKitSDK is to build AR/MR apps for HoloKit. Currently, we provide the SDK as Unity package.
 
 For Google Tango, please checkout "tango" branch.
-For Apple iOS, please checkout "master" branch. 
+For Apple iOS (ARKit), please checkout "ios" branch. 
+For Android (ARCore), please checkout "android" branch. 
 
 For detailed manual, please see [HoloKitSDK Reference Manual](docs/MANUAL.md).
 
 ## Prerequists
 * You must be an [Apple Developer](https://developer.apple.com/programs/). 
-* An iOS device that supports ARKit and running iOS 11 beta 5.
+* An iOS device that supports ARKit and running iOS 11 beta 8.
     * We tested HoloKitSDK with iPhone 7 Plus. 
-    * See below for guidance on upgrading to iOS 11 beta 5. 
+    * See below for guidance on upgrading to iOS 11 beta 8. 
 * Unity 2017.1.0f3 or later. Make sure you installed iOS components.
-* [XCode 9 Beta 5](https://developer.apple.com/download/). You need to log in with your Apple Developer account. 
+* [XCode 9 Beta 6](https://developer.apple.com/download/). You need to log in to download it with your Apple Developer account. 
 
 ## Quick Start
 1. Import "HoloKitSDK" folder under "Assets" folder into a new Unity project.
@@ -61,7 +62,6 @@ For detailed manual, please see [HoloKitSDK Reference Manual](docs/MANUAL.md).
     * You need one.
 * I cannot see any "Team" in my XCode project settings.
     * Make sure "Automatically manage signing" is checked, and you've logged in with your developer account in "XCode" -> "Preferences" -> "Accounts". 
-* [WIP]
 
 ## Attribution
 
@@ -70,7 +70,6 @@ You shall read the [How to Attribute](https://holokit.io/#develop) section.
 App developer shall mark with the words, "Works with HoloKit", or display either of the following two Holokit Logos in your app.
 
 <img src="https://holokit.io/images/HoloKit_Logo1.png" width="250px">
-
 or 
 <img src="https://holokit.io/images/HoloKit_Logo2.png" width="90px">
 
