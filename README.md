@@ -2,17 +2,16 @@
 
 HoloKitSDK is to build AR apps for HoloKit. Currently, we provide the SDK as Unity package.
 
-For Google Tango, please checkout "tango" branch.
-For Apple iOS, please checkout "master" branch. 
+- For Google Tango, please checkout "tango" branch.
+- For Apple iOS (ARKit), please checkout "ios" branch. 
+- For Android (ARCore), please checkout "android" branch. 
 
 For detailed manual, please see [HoloKitSDK Reference Manual](docs/MANUAL.md).
 
 ## Prerequists
 * A Google Tango device that supports Tango and running Android 7.0.
     * We tested HoloKitSDK with Asus Zenfone AR 
-    * See below for guidance on upgrading to Android 7.0 
 * Unity 5.6.3. Make sure you installed Android components.
-
 
 ## Quick Start
 1. Import "HoloKitSDK" folder under "Assets" folder into a new Unity project.

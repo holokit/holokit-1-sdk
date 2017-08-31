@@ -42,7 +42,7 @@ namespace HoloKit {
             Debug.Log("Calibration data loaded for 4.5 inch device. ");
         }
 
-        private static void loadZenTangoCalibration(HoloKitCameraRigController cameraRig) 
+        private static void loadZenPhoneARTangoCalibration(HoloKitCameraRigController cameraRig) 
         {
             cameraRig.CameraOffset = new Vector3(0.022f, -0.09313f, -0.08595f - 0.012f);
             cameraRig.PupilDistance = 0.064f;
@@ -58,7 +58,26 @@ namespace HoloKit {
             cameraRig.BlueDistortionFactor = 0f;
             cameraRig.BarrelDistortionFactor = 1.6f;
 
-            Debug.Log("Calibration data loaded for ASUS Zen Tango. ");
+            Debug.Log("Calibration data loaded for ASUS ZenFone AR. ");
+        }
+        
+        private static void loadLenovoPhab2ProTangoCalibration(HoloKitCameraRigController cameraRig) 
+        {
+            cameraRig.CameraOffset = new Vector3(0.04045f, -0.09348f, -0.08459f - 0.012f);
+            cameraRig.PupilDistance = 0.064f;
+            cameraRig.PhoneScreenHeight = 0.145f;
+            cameraRig.PhoneScreenWidth = 0.08f;
+            cameraRig.FresnelLensFocalLength = 0.090f;
+            cameraRig.ScreenToFresnelDistance = 0.0762f;
+            cameraRig.FresnelToEyeDistance = 0.085f + 0.012f;
+            cameraRig.ViewportHeightRatio = 0.889f;
+
+            cameraRig.RedDistortionFactor = 0f;
+            cameraRig.GreenDistortionFactor = 0f;
+            cameraRig.BlueDistortionFactor = 0f;
+            cameraRig.BarrelDistortionFactor = 1.6f;
+
+			Debug.Log("Calibration data loaded for LenovoPhab2Pro. ");
         }
 
         public static void LoadDefaultCalibration(HoloKitCameraRigController cameraRig) {
@@ -83,7 +102,20 @@ namespace HoloKit {
                     break;
             }
             #elif UNITY_ANDROID
-                    loadZenTangoCalibration(cameraRig);
+
+			Debug.Log("SystemInfo.deviceModel:" + SystemInfo.deviceModel);
+            switch (SystemInfo.deviceModel) {
+				case "asus ASUS_A002":
+                    loadZenPhoneARTangoCalibration(cameraRig);
+                    break;
+				case "LENOVO Lenovo PB2-690Y":
+                    loadLenovoPhab2ProTangoCalibration(cameraRig);
+                    break;
+                default:
+                    loadZenPhoneARTangoCalibration(cameraRig);
+                    Debug.LogWarning("Your Android device is not officially supported by HoloKitSDK.");
+                    break;
+            }
             #endif
         }
     }
