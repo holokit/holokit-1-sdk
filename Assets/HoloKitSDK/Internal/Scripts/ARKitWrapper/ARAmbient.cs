@@ -12,12 +12,12 @@ namespace HoloKit
 
         public void Start()
         {
-#if !UNITY_EDITOR
-            l = GetComponent<Light>();
-			m_Session = UnityARSessionNativeInterface.GetARSessionNativeInterface ();
+#if !UNITY_EDITOR && UNITY_IOS
+	      l = GetComponent<Light>();
+	      m_Session = UnityARSessionNativeInterface.GetARSessionNativeInterface ();
 #endif
         }
-#if !UNITY_EDITOR
+#if !UNITY_EDITOR && UNITY_IOS
         public void Update()
         {
             // Convert ARKit intensity to Unity intensity
