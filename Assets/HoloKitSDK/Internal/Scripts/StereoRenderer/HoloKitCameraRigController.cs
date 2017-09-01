@@ -67,7 +67,10 @@ namespace HoloKit
 
         private int centerCullingMask;
 
-        private UnityARVideo arVideo;
+
+		private Texture2D rectTexture;
+		private GUIStyle rectStyle;
+
 #endregion
 
 #region Getter/Setters for parameter tuning / loading. 
@@ -283,15 +286,24 @@ namespace HoloKit
             leftBarrel = LeftCamera.GetComponent<BarrelDistortion>();
             rightBarrel = RightCamera.GetComponent<BarrelDistortion>();
             centerCullingMask = CenterCamera.cullingMask;
-			arVideo = CenterCamera.GetComponent<UnityARVideo>();
 
 
             HoloKitCalibration.LoadDefaultCalibration(this);
             UpdateProjectMatrix();
+
+			rectTexture = new Texture2D(1, 1);
+			rectTexture.SetPixel(0, 0, Color.black);
+			rectTexture.Apply();
+			rectStyle = new GUIStyle();
+			rectStyle.normal.background = rectTexture;
         }
 
         void OnGUI()
         {
+			if (SeeThroughMode == SeeThroughMode.HoloKit) {
+				GUI.Box(new Rect(0, 0, Screen.width, Screen.height * (1 - 16f / 2f / 9f)), GUIContent.none, rectStyle);
+			}
+
             if (DisplayCameraModeSwitchButton) {
                 if (GUI.Button(new Rect(Screen.width - 75, 0, 75, 75), "C"))
                 {
@@ -308,9 +320,6 @@ namespace HoloKit
             RightCamera.gameObject.SetActive(SeeThroughMode == SeeThroughMode.HoloKit);
 
 			bool arVideoEnabled = (SeeThroughMode == SeeThroughMode.Video);
-
-			arVideo.enabled = arVideoEnabled;
-
 			CenterCamera.cullingMask = arVideoEnabled ? centerCullingMask : 0;
 
             if (HoloKitInputManager.Instance.GetKeyDown(SeeThroughModeToggleKey)) 
