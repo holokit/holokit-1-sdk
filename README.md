@@ -1,4 +1,4 @@
-#HoloKitSDK v1.0 (Tango Branch)
+# HoloKitSDK v1.0 (Tango Branch)
 
 HoloKitSDK is to build AR apps for HoloKit. Currently, we provide the SDK as Unity package.
 
