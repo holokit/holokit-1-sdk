@@ -9,7 +9,6 @@ HoloKitSDK is to build AR/MR apps for HoloKit. Currently, we provide the SDK as 
 For detailed manual, please see [HoloKitSDK Reference Manual](docs/MANUAL.md).
 
 ## Prerequists
-* You must be an [Apple Developer](https://developer.apple.com/programs/). 
 * An Android device that supports ARCore with Android SDK version 7.0 (API Level 24) or higher.
 - Google Pixel and Pixel XL (tested)
 - Samsung Galaxy S8
