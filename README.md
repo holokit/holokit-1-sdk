@@ -1,4 +1,4 @@
-#HoloKitSDK v1.0 (iOS Branch)
+# HoloKitSDK v1.0 (iOS Branch)
 
 HoloKitSDK is to build AR/MR apps for HoloKit. Currently, we provide the SDK as Unity package.
 
