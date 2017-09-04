@@ -103,18 +103,19 @@ namespace HoloKit {
             }
             #elif UNITY_ANDROID
 
-			Debug.Log("SystemInfo.deviceModel:" + SystemInfo.deviceModel);
-            switch (SystemInfo.deviceModel) {
-				case "asus ASUS_A002":
-                    loadZenPhoneARTangoCalibration(cameraRig);
-                    break;
-				case "LENOVO Lenovo PB2-690Y":
-                    loadLenovoPhab2ProTangoCalibration(cameraRig);
-                    break;
-                default:
-                    loadZenPhoneARTangoCalibration(cameraRig);
-                    Debug.LogWarning("Your Android device is not officially supported by HoloKitSDK.");
-                    break;
+            Debug.Log("SystemInfo.deviceModel:" + SystemInfo.deviceModel);
+            if (SystemInfo.deviceModel.Contains("ASUS_A002"))
+            {
+                loadZenPhoneARTangoCalibration(cameraRig);
+            }
+            else if (SystemInfo.deviceModel.Contains("PB2-690"))
+            {
+                loadLenovoPhab2ProTangoCalibration(cameraRig);
+            }
+            else
+            {
+                loadZenPhoneARTangoCalibration(cameraRig);
+                Debug.LogWarning("Your Android device is not officially supported by HoloKitSDK.");
             }
             #endif
         }
