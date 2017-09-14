@@ -12,7 +12,7 @@ For detailed manual, please see [HoloKitSDK Reference Manual](docs/MANUAL.md).
 * An Android device that supports ARCore with Android SDK version 7.0 (API Level 24) or higher.
 - Google Pixel and Pixel XL (tested)
 - Samsung Galaxy S8
-* Unity 2017.2 Beta 9 or later. Make sure you installed Android components.
+* Unity 2017.2 Beta 11 or later. Make sure you installed Android components.
 * Android Studio with Android SDK installed.
 - Prepare your device
   - Enable developer options
