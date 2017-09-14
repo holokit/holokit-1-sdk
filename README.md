@@ -22,7 +22,12 @@ For detailed manual, please see [HoloKitSDK Reference Manual](docs/MANUAL.md).
 3. Open the example scene "HoloKitSDK/Examples/CubeOnTheFloor".
 4. Open "File" -> "Build Settings" and click "Build". 
     * ![Screenshot](images/unity_build.png)
-5. Choose a location to put the XCode project. After the build is done, open "Unity-iPhone.xcodeproj". Make sure you open it with XCode 9 Beta.
+Make sure that the paramaters below is correct. Player Settings -> Other Settings
+Artectecture: ARM64
+Camera Usage Description: "Blahblah...".
+Target minimum iOS version: 11.0
+
+5. Choose a location to put the XCode project. After the build is done, open "Unity-iPhone.xcodeproj". Make sure you open it with XCode 9.
 6. In Xcode, change your build target to your actual device. 
     * ![Screenshot](images/device_change.png)
 6. Click "Unity-iPhone" in the file explorer to see its settings, and select the proper Team. If you don't have any Team listed, go to "XCode" -> "Preferences" -> "Accounts" and add your Apple Developer account. 
