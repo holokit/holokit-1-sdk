@@ -55,14 +55,14 @@ namespace HoloKit
         public Transform HoloKitOffset;
         public Camera LeftCamera;
         public Camera RightCamera;
-        
+
+        public LayerMask centerCullingMask;
+
 #endregion
 
 #region Private Properties
         private BarrelDistortion leftBarrel;
         private BarrelDistortion rightBarrel;
-
-        private int centerCullingMask;
 
         // private UnityARVideo arVideo;
         private TangoARScreen arVideo;
@@ -324,7 +324,9 @@ namespace HoloKit
             bool arVideoEnabled = (SeeThroughMode == SeeThroughMode.Video);
             // arVideo.enabled = arVideoEnabled;
             // tangoApplication.m_enableVideoOverlay = arVideoEnabled;
-            CenterCamera.cullingMask = arVideoEnabled ? centerCullingMask : 0;
+            CenterCamera.cullingMask = arVideoEnabled ? centerCullingMask : (LayerMask)0;
+            LeftCamera.cullingMask = centerCullingMask;
+            RightCamera.cullingMask = centerCullingMask;
 
             if (HoloKitInputManager.Instance.GetKeyDown(SeeThroughModeToggleKey)) 
             {
