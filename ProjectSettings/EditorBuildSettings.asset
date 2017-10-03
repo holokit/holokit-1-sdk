@@ -6,5 +6,5 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
-    path: Assets/HoloKitSDK/ThirdParty/TangoSDK/Examples/Scenes/ExperimentalFloorFinding.unity
+    path: 
     guid: 41d3b0f2be66c4f89938682fa7778923

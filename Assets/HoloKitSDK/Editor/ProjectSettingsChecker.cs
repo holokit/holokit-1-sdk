@@ -16,26 +16,47 @@ namespace HoloKit.Editor
 
         private static void EditorUpdate()
         {
-            checkPlatform();
-            checkCameraDescription();
-            checkTargetSDKVersion();
+            CheckPlatform();
+            CheckCameraDescription();
+            CheckTargetSDKVersion();
             EditorApplication.update -= EditorUpdate;
         }
 
-        private static void checkPlatform() {
-            if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.Android) {
-                 if (EditorUtility.DisplayDialog(
-                     "Switch Platform", 
-                     "Switch to Android now? ", 
-                     "Switch to Android",
-                     "Cancel")) 
-                {
-                    EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Android, BuildTarget.Android);
-                }
+        private static void CheckPlatform()
+        {
+            switch (EditorUserBuildSettings.activeBuildTarget)
+            {
+                case BuildTarget.Android:
+                    break;
+                case BuildTarget.iOS:
+                    break;
+                default:
+
+                    int answerId = EditorUtility.DisplayDialogComplex(
+                        "Switch Platform",
+                        "Incorrect Target Platform: Switch to Android or iOS",
+                        "Switch to Android",
+                        "Switch to iOS",
+                        "Cancel"
+                    );
+
+                    switch (answerId)
+                    {
+                        case 0:
+                            EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Android, BuildTarget.Android);
+                            break;
+                        case 1:
+                            EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.iOS, BuildTarget.iOS);
+                            break;
+                        case 2:
+                            break;
+                    }
+
+                    break;
             }
         }
 
-        private static void checkCameraDescription()
+        private static void CheckCameraDescription()
         {
             if (PlayerSettings.iOS.cameraUsageDescription == null ||
                 PlayerSettings.iOS.cameraUsageDescription.Length == 0) 
@@ -45,7 +66,7 @@ namespace HoloKit.Editor
                 }
         }
 
-        private static void checkTargetSDKVersion()
+        private static void CheckTargetSDKVersion()
         {
             int version = 0;
             if (PlayerSettings.iOS.targetOSVersionString != null)
