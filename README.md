@@ -21,18 +21,23 @@ For detailed manual, please see [HoloKitSDK Reference Manual](docs/MANUAL.md).
     adb install -r -d arcore-preview.apk
 
 ## Quick Start
-1. Import "HoloKitSDK" folder under "Assets" folder into a new Unity project.
+1. Import "HoloKitSDK" folder under "Assets" folder into a new Unity project. If you can't import, you can manually copy & paste the "HoloKitSDK" folder into your project's "Assets" folder.
 2. Open the example scene "HoloKitSDK/Examples/CubeOnTheFloor".
-3. Change the target platform to Android and click Switch Platform.
+3. Click File->Build Settings and change the target platform to Android and click Switch Platform. 
 Click Player Settings to open the Android Player Settings. Then change the following settings:
 
     - Other Settings > Multithreaded Rendering: Off
     - Other Settings > Package Name: a unique app ID that looks like a Java package name, such as com.example.helloAR
     - Other Settings > Minimum API Level: Android 7.0 or higher
     - Other Settings > Target API Level: Android 7.0 or 7.1
-    - XR Settings > Tango Supported: On
+    - XR Settings > Tango Supported: On ( Or if you are using Unity 2017.2.0f2, you can turn ARCore Supported: On )
     
 4. Open "File" -> "Build Settings" and click "Build". 
+5. The app should now run on your android device and you should see MR view with black screen and 'Searching for surfaces'.
+6. On the top right corner, you should see a square with a letter 'C' in it. You can use this to toggle between AR & MR. Tap on it to switch the view to live video camera.
+7. Make sure there is enough light in your room and point the device towards your the floor. You should start seeing the blue points (point clouds) moving around and detecting your floors. Taping anywhere on the detected floor, will place Android on the floor.
+8. Once you confirm this working, toggle back to the MR mode by clicking on the 'C' in top right corner. 
+9. You can now place the device in your HoloKit to experience it. 
 
 ## Create your own experience
 1. Create a new scene in Unity. 
