@@ -23,16 +23,16 @@ namespace HoloKit.Editor
         }
 
         private static void checkPlatform() {
-            if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.iOS) {
-                 if (EditorUtility.DisplayDialog(
-                     "Switch Platform", 
-                     "Switch to iOS now? ", 
-                     "Switch to iOS",
-                     "Cancel")) 
-                {
-                    EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.iOS, BuildTarget.iOS);
-                }
-            }
+            //if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.iOS) {
+            //     if (EditorUtility.DisplayDialog(
+            //         "Switch Platform", 
+            //         "Switch to iOS now? ", 
+            //         "Switch to iOS",
+            //         "Cancel")) 
+            //    {
+            //        EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.iOS, BuildTarget.iOS);
+            //    }
+            //}
         }
 
         private static void checkCameraDescription()

@@ -42,7 +42,7 @@ namespace UnityEngine.XR.iOS
             }
 
             if (GUI.Button (new Rect (300, 100, 200, 50), "Start")) {
-                ARKitWorldTackingSessionConfiguration sessionConfig = new ARKitWorldTackingSessionConfiguration (alignmentOptions [currentAlignmentIndex], planeOptions[currentPlaneIndex]);
+                ARKitWorldTrackingSessionConfiguration sessionConfig = new ARKitWorldTrackingSessionConfiguration (alignmentOptions [currentAlignmentIndex], planeOptions[currentPlaneIndex]);
                 UnityARSessionNativeInterface.GetARSessionNativeInterface ().RunWithConfigAndOptions (sessionConfig, runOptions[currentOptionIndex]);
             }
 

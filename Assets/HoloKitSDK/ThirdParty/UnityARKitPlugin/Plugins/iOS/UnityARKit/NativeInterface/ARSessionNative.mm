@@ -97,12 +97,19 @@ typedef struct
 
 typedef struct
 {
+    float ambientIntensity;
+    float ambientColorTemperature;
+}UnityARLightEstimation;
+
+typedef struct
+{
     UnityARMatrix4x4 worldTransform;
     UnityARMatrix4x4 projectionMatrix;
     UnityARTrackingState trackingState;
     UnityARTrackingReason trackingReason;
     UnityVideoParams videoParams;
-    float ambientIntensity;
+    UnityARLightEstimation lightEstimation;
+    UnityARMatrix4x4 displayTransform;
     uint32_t getPointCloudData;
 } UnityARCamera;
 
@@ -275,6 +282,32 @@ inline void UnityARAnchorDataFromARAnchorPtr(UnityARAnchorData& anchorData, ARPl
     anchorData.extent.z = nativeAnchor.extent.z;
 }
 
+inline void UnityARMatrix4x4FromCGAffineTransform(UnityARMatrix4x4& outMatrix, CGAffineTransform displayTransform, BOOL isLandscape)
+{
+    if (isLandscape)
+    {
+        outMatrix.column0.x = displayTransform.a;
+        outMatrix.column0.y = displayTransform.c;
+        outMatrix.column0.z = displayTransform.tx;
+        outMatrix.column1.x = displayTransform.b;
+        outMatrix.column1.y = -displayTransform.d;
+        outMatrix.column1.z = 1.0f - displayTransform.ty;
+        outMatrix.column2.z = 1.0f;
+        outMatrix.column3.w = 1.0f; 
+    }
+    else
+    {
+        outMatrix.column0.x = displayTransform.a;
+        outMatrix.column0.y = -displayTransform.c;
+        outMatrix.column0.z = -displayTransform.tx;
+        outMatrix.column1.x = displayTransform.b;
+        outMatrix.column1.y = displayTransform.d;
+        outMatrix.column1.z = displayTransform.ty;
+        outMatrix.column2.z = 1.0f;
+        outMatrix.column3.w = 1.0f;
+    }
+}
+
 inline void UnityARUserAnchorDataFromARAnchorPtr(UnityARUserAnchorData& anchorData, ARAnchor* nativeAnchor)
 {
     anchorData.identifier = (void*)[nativeAnchor.identifier.UUIDString UTF8String];
@@ -413,8 +446,8 @@ static CGAffineTransform s_CurAffineTransform;
 
     CGRect nativeBounds = [[UIScreen mainScreen] nativeBounds];
     CGSize nativeSize = GetAppController().rootView.bounds.size;
-
-    s_CurAffineTransform = [frame displayTransformForOrientation:[[UIApplication sharedApplication] statusBarOrientation] viewportSize:nativeSize];
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    s_CurAffineTransform = CGAffineTransformInvert([frame displayTransformForOrientation:orientation viewportSize:nativeSize]);
 
     UnityARCamera unityARCamera;
 
@@ -431,12 +464,16 @@ static CGAffineTransform s_CurAffineTransform;
     unityARCamera.videoParams.texCoordScale =  screenAspect / imageAspect;
     s_ShaderScale = screenAspect / imageAspect;
     
-    unityARCamera.ambientIntensity = frame.lightEstimate.ambientIntensity;
-    
+    unityARCamera.lightEstimation.ambientIntensity = frame.lightEstimate.ambientIntensity;
+    unityARCamera.lightEstimation.ambientColorTemperature = frame.lightEstimate.ambientColorTemperature;
+
     unityARCamera.videoParams.yWidth = (uint32_t)imageWidth;
     unityARCamera.videoParams.yHeight = (uint32_t)imageHeight;
     unityARCamera.videoParams.cvPixelBufferPtr = (void *) pixelBuffer;
-    
+    UnityARMatrix4x4 displayTransform;
+    memset(&displayTransform, 0, sizeof(UnityARMatrix4x4));
+    UnityARMatrix4x4FromCGAffineTransform(displayTransform, s_CurAffineTransform, UIInterfaceOrientationIsLandscape(orientation));
+    unityARCamera.displayTransform = displayTransform;
 
     if (_frameCallback != NULL)
     {
@@ -818,9 +855,8 @@ static NSArray<ARHitTestResult *>* s_LastHitTestResults;
 extern "C" int HitTest(void* nativeSession, CGPoint point, ARHitTestResultType types)
 {
     UnityARSession* session = (__bridge UnityARSession*)nativeSession;
-
-     point = CGPointApplyAffineTransform(CGPointMake(point.x, 1.0f - point.y), CGAffineTransformInvert(s_CurAffineTransform));
-     s_LastHitTestResults = [session->_session.currentFrame hitTest:point types:types];
+    point = CGPointApplyAffineTransform(CGPointMake(point.x, 1.0f - point.y), CGAffineTransformInvert(CGAffineTransformInvert(s_CurAffineTransform)));
+    s_LastHitTestResults = [session->_session.currentFrame hitTest:point types:types];
 
     return (int)[s_LastHitTestResults count];
 }
@@ -872,11 +908,6 @@ extern "C" float GetAmbientIntensity()
 extern "C" int GetTrackingQuality()
 {
     return s_TrackingQuality;
-}
-
-extern "C" float GetYUVTexCoordScale()
-{
-    return s_ShaderScale;
 }
 
 extern "C" bool IsARKitWorldTrackingSessionConfigurationSupported()

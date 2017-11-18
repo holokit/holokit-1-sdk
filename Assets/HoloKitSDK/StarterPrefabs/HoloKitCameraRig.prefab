@@ -20,8 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4831360984145986}
   - component: {fileID: 20524455000579584}
-  - component: {fileID: 114452743441708104}
-  - component: {fileID: 114696786211034668}
   m_Layer: 0
   m_Name: VideoSeeThroughCamera
   m_TagString: MainCamera
@@ -126,7 +124,7 @@ GameObject:
   - component: {fileID: 4202572033754002}
   - component: {fileID: 114847015135232524}
   - component: {fileID: 81862524730754930}
-  - component: {fileID: 114044400126321042}
+  - component: {fileID: 114189982795215914}
   m_Layer: 0
   m_Name: HoloKitCameraRig
   m_TagString: Untagged
@@ -239,7 +237,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
-  m_StereoMirrorMode: 0
 --- !u!20 &20524455000579584
 Camera:
   m_ObjectHideFlags: 1
@@ -275,7 +272,6 @@ Camera:
   m_OcclusionCulling: 0
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
-  m_StereoMirrorMode: 0
 --- !u!20 &20850376228395146
 Camera:
   m_ObjectHideFlags: 1
@@ -311,7 +307,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
-  m_StereoMirrorMode: 0
 --- !u!81 &81862524730754930
 AudioListener:
   m_ObjectHideFlags: 1
@@ -319,19 +314,6 @@ AudioListener:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1871409070033200}
   m_Enabled: 1
-  m_ExtensionPropertyValues: []
---- !u!114 &114044400126321042
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1871409070033200}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a306b8d70e8e243839a951f2ed245253, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_camera: {fileID: 20524455000579584}
 --- !u!114 &114112386067409708
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -400,6 +382,23 @@ MonoBehaviour:
   BarrelDistortionShader: {fileID: 4800000, guid: d1856b4cfae464790b5513116b7e8f1f,
     type: 3}
   BarrelDistortionMaterial: {fileID: 0}
+--- !u!114 &114189982795215914
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1871409070033200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9acf0b0c890fb9040b2f5da53bf54d86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ARCamera: {fileID: 20524455000579584}
+  m_PlaneDetection: 1
+  m_LightEstimation: 1
+  m_PointCloud: 1
+  m_Scale: 1
+  pointOfInterest: {x: 0, y: 0, z: 0}
 --- !u!114 &114212386276063438
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -420,29 +419,6 @@ MonoBehaviour:
   BarrelDistortionShader: {fileID: 4800000, guid: d1856b4cfae464790b5513116b7e8f1f,
     type: 3}
   BarrelDistortionMaterial: {fileID: 0}
---- !u!114 &114452743441708104
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1032094477103898}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef132ef68de60488a912845277b2c95d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114696786211034668
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1032094477103898}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16a099b983d38480398703cf3244590f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ClearMaterial: {fileID: 2100000, guid: fa51cd746590e482bbaf1f857265959d, type: 2}
 --- !u!114 &114847015135232524
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -473,6 +449,9 @@ MonoBehaviour:
   HoloKitOffset: {fileID: 4730678832593770}
   LeftCamera: {fileID: 20466219612664508}
   RightCamera: {fileID: 20850376228395146}
+  centerCullingMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &114870653077182418
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -546,9 +525,9 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1676592292794566}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 224822271519928484}
   m_Father: {fileID: 4202572033754002}

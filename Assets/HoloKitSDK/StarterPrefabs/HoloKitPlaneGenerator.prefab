@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4091708018637790}
-  - component: {fileID: 114822749989242078}
+  - component: {fileID: 114465804382145764}
   m_Layer: 0
   m_Name: HoloKitPlaneGenerator
   m_TagString: Untagged
@@ -40,7 +40,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114822749989242078
+--- !u!114 &114465804382145764
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -48,8 +48,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1961081042400776}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28076cc4763a9408095a0f921b48f833, type: 3}
+  m_Script: {fileID: 11500000, guid: 5d15554ba01a81b43836c6e4770c204f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  planePrefab: {fileID: 1372998203143648, guid: 8421dcecfcac44e2699aa0ecb54473b9,
+  m_PlanePrefab: {fileID: 1372998203143648, guid: 2c9427dfd106e4aefa08705ac5020bf9,
     type: 2}
+  m_PlaneLayer: 0
