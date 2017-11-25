@@ -1,25 +1,38 @@
-# HoloKitSDK v1.0 (iOS Branch)
+# HoloKitSDK v1.0 (arinterface Branch)
 
 HoloKitSDK is to build AR/MR apps for HoloKit. Currently, we provide the SDK as Unity package.
 
 For Google Tango, please checkout "tango" branch.
 For Apple iOS (ARKit), please checkout "ios" branch. 
 For Android (ARCore), please checkout "android" branch. 
+For ARInterface (Unity), please checkout "arinterface" branch.
 
 For detailed manual, please see [HoloKitSDK Reference Manual](docs/MANUAL.md).
 
-## Prerequists
+## Prerequists(iOS)
 * You must be an [Apple Developer](https://developer.apple.com/programs/). 
 * An iOS device that supports ARKit and running iOS 11.
     * We tested HoloKitSDK with iPhone 7 Plus. 
     * See below for guidance on upgrading to iOS 11. 
-* Unity 2017.1.1f3 or later. Make sure you installed iOS components.
+* Unity 2017.2.0f3 or later. Make sure you installed iOS components.
 * [XCode 9](https://developer.apple.com/download/). You need to log in to download it with your Apple Developer account. 
 
-## Quick Start
+## Prerequists(Android)
+* An Android device that supports ARCore with Android SDK version 7.0 (API Level 24) or higher.
+- Google Pixel and Pixel XL (tested)
+- Samsung Galaxy S8
+* Unity 2017.2.0f3 or later. Make sure you installed Android components.
+* Android Studio with Android SDK installed.
+- Prepare your device
+  - Enable developer options
+  - Enable USB debugging
+  - Download the [ARCore Service](https://github.com/google-ar/arcore-android-sdk/releases/download/sdk-preview/arcore-preview.apk), then install it with the following adb command: 
+    adb install -r -d arcore-preview.apk
+
+## Quick Start(iOS)
 1. Import "HoloKitSDK" folder under "Assets" folder into a new Unity project.
-2. You might be prompted to switch to iOS platform. If so please go ahead and switch. 
-3. Open the example scene "HoloKitSDK/Examples/CubeOnTheFloor".
+2. Open the example scene "HoloKitSDK/Examples/CubeOnTheFloor".
+3. Change the target platform to iOS and click Switch Platform.
 4. Open "File" -> "Build Settings" and click "Build". 
     * ![Screenshot](images/unity_build.png)
 Make sure that the paramaters below is correct. Player Settings -> Other Settings
@@ -40,6 +53,20 @@ Target minimum iOS version: 11.0
     * ![Sample](images/app2.png)
 11. You may touch the small "C" button to switch to HoloKit mode. 
     * ![Sample](images/app3.png)
+
+## Quick Start(Android)
+1. Import "HoloKitSDK" folder under "Assets" folder into a new Unity project.
+2. Open the example scene "HoloKitSDK/Examples/CubeOnTheFloor".
+3. Change the target platform to Android and click Switch Platform.
+Click Player Settings to open the Android Player Settings. Then change the following settings:
+
+    - Other Settings > Multithreaded Rendering: Off
+    - Other Settings > Package Name: a unique app ID that looks like a Java package name, such as com.example.helloAR
+    - Other Settings > Minimum API Level: Android 7.0 or higher
+    - Other Settings > Target API Level: Android 7.0 or 7.1
+    - XR Settings > Tango Supported: On
+    
+4. Open "File" -> "Build Settings" and click "Build".
 
 ## Create your own experience
 1. Create a new scene in Unity. 

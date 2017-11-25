@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4054706502541514}
-  - component: {fileID: 114196642553765816}
+  - component: {fileID: 114416102060099022}
   m_Layer: 0
   m_Name: HoloKitPointCloud
   m_TagString: Untagged
@@ -40,7 +40,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114196642553765816
+--- !u!114 &114416102060099022
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -48,9 +48,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1695010100881902}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05a0e58f9986349db94c3712661a21ce, type: 3}
+  m_Script: {fileID: 11500000, guid: 37ab97bfa6689994caf97070bd3a37ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numPointsToShow: 100
-  PointCloudPrefab: {fileID: 1845574417345784, guid: a60b423f8db9c44d6b2318431088161e,
+  m_PointCloudParticlePrefab: {fileID: 198314236125653888, guid: 8049ec78edc7a450ea776237de46d3f8,
     type: 2}
+  m_MaxPointsToShow: 100
+  m_ParticleSize: 0.01

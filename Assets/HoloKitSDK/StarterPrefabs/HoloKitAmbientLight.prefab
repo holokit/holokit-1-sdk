@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4187889485838102}
   - component: {fileID: 108494541998339776}
-  - component: {fileID: 114300885513359892}
+  - component: {fileID: 114973623221307694}
   m_Layer: 0
   m_Name: HoloKitAmbientLight
   m_TagString: Untagged
@@ -77,7 +77,7 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!114 &114300885513359892
+--- !u!114 &114973623221307694
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -85,6 +85,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1381129898152130}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fe066d07d11b493ab84d21f39b09859, type: 3}
+  m_Script: {fileID: 11500000, guid: 42c0fd8eb63520443a7998adf32e8a65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

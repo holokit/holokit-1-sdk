@@ -319,12 +319,12 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114212386276063438, guid: 26534a6c890f74fbfbaf6372ac88cf50,
+    - target: {fileID: 114166964547143428, guid: 26534a6c890f74fbfbaf6372ac88cf50,
         type: 2}
       propertyPath: BarrelDistortionMaterial
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 114166964547143428, guid: 26534a6c890f74fbfbaf6372ac88cf50,
+    - target: {fileID: 114212386276063438, guid: 26534a6c890f74fbfbaf6372ac88cf50,
         type: 2}
       propertyPath: BarrelDistortionMaterial
       value: 

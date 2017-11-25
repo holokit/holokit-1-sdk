@@ -9,6 +9,12 @@ public class UnityARCameraManager : MonoBehaviour {
     private UnityARSessionNativeInterface m_session;
 	private Material savedClearMaterial;
 
+	[Header("AR Config Options")]
+	public UnityARAlignment startAlignment = UnityARAlignment.UnityARAlignmentGravity;
+	public UnityARPlaneDetection planeDetection = UnityARPlaneDetection.Horizontal;
+	public bool getPointCloud = true;
+	public bool enableLightEstimation = true;
+
 	// Use this for initialization
 	void Start () {
 
@@ -16,11 +22,11 @@ public class UnityARCameraManager : MonoBehaviour {
 
 #if !UNITY_EDITOR
 		Application.targetFrameRate = 60;
-        ARKitWorldTackingSessionConfiguration config = new ARKitWorldTackingSessionConfiguration();
-        config.planeDetection = UnityARPlaneDetection.Horizontal;
-        config.alignment = UnityARAlignment.UnityARAlignmentGravity;
-        config.getPointCloudData = true;
-        config.enableLightEstimation = true;
+        ARKitWorldTrackingSessionConfiguration config = new ARKitWorldTrackingSessionConfiguration();
+		config.planeDetection = planeDetection;
+		config.alignment = startAlignment;
+		config.getPointCloudData = getPointCloud;
+		config.enableLightEstimation = enableLightEstimation;
         m_session.RunWithConfig(config);
 
 		if (m_camera == null) {

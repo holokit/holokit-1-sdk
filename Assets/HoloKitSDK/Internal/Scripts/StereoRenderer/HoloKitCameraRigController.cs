@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.XR.iOS;
 using UnityEngine.XR;
-
+using UnityEngine.XR.iOS;
 
 namespace HoloKit
 {
-	#if UNITY_ANDROID
-	using UnityTango = GoogleAR.UnityNative;
-	#endif
 
     public enum SeeThroughMode
     {
@@ -58,16 +54,18 @@ namespace HoloKit
         public Transform HoloKitOffset;
         public Camera LeftCamera;
         public Camera RightCamera;
-        
+
+        public LayerMask centerCullingMask;
+
 #endregion
 
 #region Private Properties
         private BarrelDistortion leftBarrel;
         private BarrelDistortion rightBarrel;
+        
+        private Texture2D rectTexture;
+        private GUIStyle rectStyle;
 
-        private int centerCullingMask;
-
-        private UnityARVideo arVideo;
 #endregion
 
 #region Getter/Setters for parameter tuning / loading. 
@@ -283,17 +281,26 @@ namespace HoloKit
             leftBarrel = LeftCamera.GetComponent<BarrelDistortion>();
             rightBarrel = RightCamera.GetComponent<BarrelDistortion>();
             centerCullingMask = CenterCamera.cullingMask;
-			arVideo = CenterCamera.GetComponent<UnityARVideo>();
 
 
             HoloKitCalibration.LoadDefaultCalibration(this);
             UpdateProjectMatrix();
+            
+            rectTexture = new Texture2D(1, 1);
+            rectTexture.SetPixel(0, 0, Color.black);
+            rectTexture.Apply();
+            rectStyle = new GUIStyle();
+            rectStyle.normal.background = rectTexture;
         }
 
         void OnGUI()
         {
+            if (SeeThroughMode == SeeThroughMode.HoloKit)
+            {
+                GUI.Box(new Rect(0, 0, Screen.width, Screen.height * (1 - 16f / 2f / 9f)), GUIContent.none, rectStyle);
+            }
             if (DisplayCameraModeSwitchButton) {
-                if (GUI.Button(new Rect(Screen.width - 75, 0, 75, 75), "C"))
+                if (GUI.Button(new Rect(Screen.width - 200, 50, 150, 150), "C"))
                 {
                     SeeThroughMode = (SeeThroughMode == SeeThroughMode.Video) 
                         ? SeeThroughMode.HoloKit 
@@ -307,11 +314,11 @@ namespace HoloKit
             LeftCamera.gameObject.SetActive(SeeThroughMode == SeeThroughMode.HoloKit);
             RightCamera.gameObject.SetActive(SeeThroughMode == SeeThroughMode.HoloKit);
 
-			bool arVideoEnabled = (SeeThroughMode == SeeThroughMode.Video);
+            bool arVideoEnabled = (SeeThroughMode == SeeThroughMode.Video);
 
-			arVideo.enabled = arVideoEnabled;
-
-			CenterCamera.cullingMask = arVideoEnabled ? centerCullingMask : 0;
+            CenterCamera.cullingMask = arVideoEnabled ? centerCullingMask : (LayerMask)0;
+            LeftCamera.cullingMask = centerCullingMask;
+            RightCamera.cullingMask = centerCullingMask;
 
             if (HoloKitInputManager.Instance.GetKeyDown(SeeThroughModeToggleKey)) 
             {

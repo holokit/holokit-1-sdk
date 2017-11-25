@@ -33,6 +33,12 @@ namespace UnityEngine.XR.iOS {
 		public IntPtr cvPixelBufferPtr;
 	};
 
+	[Serializable]
+	public struct UnityARLightEstimate
+	{
+		public float ambientIntensity;
+		public float ambientColorTemperature;
+	};
 
     struct internal_UnityARCamera
     {
@@ -41,7 +47,8 @@ namespace UnityEngine.XR.iOS {
         public ARTrackingState trackingState;
         public ARTrackingStateReason trackingReason;
 		public UnityVideoParams videoParams;
-		public float ambientIntensity;
+		public UnityARLightEstimate lightEstimation;
+        public UnityARMatrix4x4 displayTransform;
         public uint getPointCloudData;
     };
 
@@ -52,17 +59,19 @@ namespace UnityEngine.XR.iOS {
         public ARTrackingState trackingState;
         public ARTrackingStateReason trackingReason;
 		public UnityVideoParams videoParams;
-		public float ambientIntensity;
+		public UnityARLightEstimate lightEstimation;
+        public UnityARMatrix4x4 displayTransform;
         public Vector3[] pointCloudData;
 
-		public UnityARCamera(UnityARMatrix4x4 wt, UnityARMatrix4x4 pm, ARTrackingState ats, ARTrackingStateReason atsr, UnityVideoParams uvp, float lightEst, Vector3[] pointCloud)
+		public UnityARCamera(UnityARMatrix4x4 wt, UnityARMatrix4x4 pm, ARTrackingState ats, ARTrackingStateReason atsr, UnityVideoParams uvp, UnityARLightEstimate lightEst, UnityARMatrix4x4 dt, Vector3[] pointCloud)
 		{
 			worldTransform = wt;
 			projectionMatrix = pm;
 			trackingState = ats;
 			trackingReason = atsr;
 			videoParams = uvp;
-			ambientIntensity = lightEst;
+			lightEstimation = lightEst;
+            displayTransform = dt;
 			pointCloudData = pointCloud;
 		}
     };
@@ -203,7 +212,7 @@ namespace UnityEngine.XR.iOS {
 
 
 
-	public struct ARKitWorldTackingSessionConfiguration
+	public struct ARKitWorldTrackingSessionConfiguration
 	{
 	    public UnityARAlignment alignment; 
 	    public UnityARPlaneDetection planeDetection;
@@ -211,7 +220,7 @@ namespace UnityEngine.XR.iOS {
         public bool enableLightEstimation;
         public bool IsSupported { get { return IsARKitWorldTrackingSessionConfigurationSupported(); } private set {} }
 
-	    public ARKitWorldTackingSessionConfiguration(UnityARAlignment alignment = UnityARAlignment.UnityARAlignmentGravity,
+	    public ARKitWorldTrackingSessionConfiguration(UnityARAlignment alignment = UnityARAlignment.UnityARAlignmentGravity,
 	            UnityARPlaneDetection planeDetection = UnityARPlaneDetection.Horizontal,
             bool getPointCloudData = false, 
             bool enableLightEstimation = false)
@@ -306,10 +315,10 @@ namespace UnityEngine.XR.iOS {
                                             internal_ARUserAnchorUpdated userAnchorUpdatedCallback, 
                                             internal_ARUserAnchorRemoved userAnchorRemovedCallback);
 	    [DllImport("__Internal")]
-	    private static extern void StartWorldTrackingSession(IntPtr nativeSession, ARKitWorldTackingSessionConfiguration configuration);
+	    private static extern void StartWorldTrackingSession(IntPtr nativeSession, ARKitWorldTrackingSessionConfiguration configuration);
 
         [DllImport("__Internal")]
-        private static extern void StartWorldTrackingSessionWithOptions(IntPtr nativeSession, ARKitWorldTackingSessionConfiguration configuration, UnityARSessionRunOption runOptions);
+        private static extern void StartWorldTrackingSessionWithOptions(IntPtr nativeSession, ARKitWorldTrackingSessionConfiguration configuration, UnityARSessionRunOption runOptions);
 
         [DllImport("__Internal")]
         private static extern void StartSession(IntPtr nativeSession, ARKitSessionConfiguration configuration);
@@ -334,9 +343,6 @@ namespace UnityEngine.XR.iOS {
 
 		[DllImport("__Internal")]
 		private static extern int GetTrackingQuality();
-
-        [DllImport("__Internal")]
-        private static extern float GetYUVTexCoordScale();
 
         [DllImport("__Internal")]
         private static extern bool GetARPointCloud (ref IntPtr verts, ref uint vertLength);
@@ -458,7 +464,8 @@ namespace UnityEngine.XR.iOS {
             pubCamera.trackingState = camera.trackingState;
             pubCamera.trackingReason = camera.trackingReason;
 			pubCamera.videoParams = camera.videoParams;
-			pubCamera.ambientIntensity = camera.ambientIntensity;
+			pubCamera.lightEstimation = camera.lightEstimation;
+            pubCamera.displayTransform = camera.displayTransform;
             s_Camera = pubCamera;
 
             if (camera.getPointCloudData == 1)
@@ -649,14 +656,14 @@ namespace UnityEngine.XR.iOS {
             }
 		}
 
-        public void RunWithConfigAndOptions(ARKitWorldTackingSessionConfiguration config, UnityARSessionRunOption runOptions)
+        public void RunWithConfigAndOptions(ARKitWorldTrackingSessionConfiguration config, UnityARSessionRunOption runOptions)
         {
 #if !UNITY_EDITOR
             StartWorldTrackingSessionWithOptions (m_NativeARSession, config, runOptions);
 #endif
         }
 
-	    public void RunWithConfig(ARKitWorldTackingSessionConfiguration config)
+	    public void RunWithConfig(ARKitWorldTrackingSessionConfiguration config)
 	    {
 #if !UNITY_EDITOR
 	        StartWorldTrackingSession(m_NativeARSession, config);
@@ -665,7 +672,7 @@ namespace UnityEngine.XR.iOS {
 
 	    public void Run()
 	    {
-	        RunWithConfig(new ARKitWorldTackingSessionConfiguration(UnityARAlignment.UnityARAlignmentGravity, UnityARPlaneDetection.Horizontal));
+	        RunWithConfig(new ARKitWorldTrackingSessionConfiguration(UnityARAlignment.UnityARAlignmentGravity, UnityARPlaneDetection.Horizontal));
 	    }
 
         public void RunWithConfigAndOptions(ARKitSessionConfiguration config, UnityARSessionRunOption runOptions)
@@ -724,12 +731,6 @@ namespace UnityEngine.XR.iOS {
 			return GetTrackingQuality();
 		}
         
-		[Obsolete("Hook ARFrameUpdatedEvent instead and get UnityARCamera.videoParams.texCoordScale")]
-        public float GetARYUVTexCoordScale()
-        {
-            return GetYUVTexCoordScale();
-        }
-
         public UnityARUserAnchorData AddUserAnchor(UnityARUserAnchorData anchorData)
         {
 #if !UNITY_EDITOR
