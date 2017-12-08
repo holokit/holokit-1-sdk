@@ -13,7 +13,7 @@ namespace HoloKit {
             cameraRig.FresnelLensFocalLength = 0.090f;
             cameraRig.ScreenToFresnelDistance = 0.0762f;
             cameraRig.FresnelToEyeDistance = 0.085f + 0.012f;
-            cameraRig.ViewportHeightRatio = 0.889f;
+            cameraRig.ViewportHeightRatio = 1f;
 
             cameraRig.RedDistortionFactor = 0f;
             cameraRig.GreenDistortionFactor = 0f;
@@ -32,7 +32,7 @@ namespace HoloKit {
             cameraRig.FresnelLensFocalLength = 0.090f;
             cameraRig.ScreenToFresnelDistance = 0.0762f;
             cameraRig.FresnelToEyeDistance = 0.085f + 0.012f;
-            cameraRig.ViewportHeightRatio = 1.0f;
+            cameraRig.ViewportHeightRatio = 1f;
 
             cameraRig.RedDistortionFactor = 0f;
             cameraRig.GreenDistortionFactor = 0f;
@@ -51,7 +51,7 @@ namespace HoloKit {
             cameraRig.FresnelLensFocalLength = 0.090f;
             cameraRig.ScreenToFresnelDistance = 0.0762f;
             cameraRig.FresnelToEyeDistance = 0.085f + 0.012f;
-            cameraRig.ViewportHeightRatio = 0.889f;
+            cameraRig.ViewportHeightRatio = 1f;
 
             cameraRig.RedDistortionFactor = 0f;
             cameraRig.GreenDistortionFactor = 0f;
@@ -70,7 +70,7 @@ namespace HoloKit {
             cameraRig.FresnelLensFocalLength = 0.090f;
             cameraRig.ScreenToFresnelDistance = 0.0762f;
             cameraRig.FresnelToEyeDistance = 0.085f + 0.012f;
-            cameraRig.ViewportHeightRatio = 0.889f;
+            cameraRig.ViewportHeightRatio = 1f;
 
             cameraRig.RedDistortionFactor = 0f;
             cameraRig.GreenDistortionFactor = 0f;
@@ -89,7 +89,7 @@ namespace HoloKit {
             cameraRig.FresnelLensFocalLength = 0.090f;
             cameraRig.ScreenToFresnelDistance = 0.0762f;
             cameraRig.FresnelToEyeDistance = 0.085f + 0.012f;
-            cameraRig.ViewportHeightRatio = 1.0f;
+            cameraRig.ViewportHeightRatio = 1f;
 
             cameraRig.RedDistortionFactor = 0f;
             cameraRig.GreenDistortionFactor = 0f;
@@ -108,7 +108,7 @@ namespace HoloKit {
             cameraRig.FresnelLensFocalLength = 0.090f;
             cameraRig.ScreenToFresnelDistance = 0.0762f;
             cameraRig.FresnelToEyeDistance = 0.085f + 0.012f;
-            cameraRig.ViewportHeightRatio = 0.889f;
+            cameraRig.ViewportHeightRatio = 1f;
 
             cameraRig.RedDistortionFactor = 0f;
             cameraRig.GreenDistortionFactor = 0f;
@@ -127,7 +127,7 @@ namespace HoloKit {
             cameraRig.FresnelLensFocalLength = 0.090f;
             cameraRig.ScreenToFresnelDistance = 0.0762f;
             cameraRig.FresnelToEyeDistance = 0.085f + 0.012f;
-            cameraRig.ViewportHeightRatio = 0.889f;
+            cameraRig.ViewportHeightRatio = 1f;
 
             cameraRig.RedDistortionFactor = 0f;
             cameraRig.GreenDistortionFactor = 0f;

@@ -526,8 +526,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bff50db40c864072a79f2478b74d27c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlacementKey: 16
-  PlacementOnTouch: 1
+  onPlace:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onHide:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  placeOnKey: 12
+  placeOnTouch: 1
+  rotateToCamera: 0
+  holder: {fileID: 1461795406368096}
+  placeLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!114 &114978817102199312
 MonoBehaviour:
   m_ObjectHideFlags: 1
