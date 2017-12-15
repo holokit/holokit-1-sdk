@@ -1,0 +1,122 @@
+fileFormatVersion: 2
+guid: 217b3f4f4eec549498d8aa8099834c77
+timeCreated: 1513086010
+licenseType: Free
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: distortedMesh
+    100004: distortedMesh_L
+    100006: distortedMesh_R
+    100008: distortedMesh_Lm
+    100010: distortedMesh_Rm
+    400000: //RootNode
+    400002: distortedMesh
+    400004: distortedMesh_L
+    400006: distortedMesh_R
+    400008: distortedMesh_Lm
+    400010: distortedMesh_Rm
+    2300000: distortedMesh
+    2300002: distortedMesh_L
+    2300004: distortedMesh_R
+    2300006: distortedMesh_Lm
+    2300008: distortedMesh_Rm
+    3300000: distortedMesh
+    3300002: distortedMesh_L
+    3300004: distortedMesh_R
+    3300006: distortedMesh_Lm
+    3300008: distortedMesh_Rm
+    4300000: distortedMesh_L
+    4300002: distortedMesh_R
+    4300004: distortedMesh
+    4300006: distortedMesh_Rm
+    4300008: distortedMesh_Lm
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 2000px-Checkerboard_patternUV.svg
+    second: {fileID: 2100000, guid: 396f58d5b3229f24aa2940e37728bd92, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: distortedMesh
+    second: {fileID: 2100000, guid: 00323e238939c054e97c34796ca2402e, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 0
+    importBlendShapes: 0
+    importCameras: 0
+    importLights: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 0
+    keepQuads: 0
+    weldVertices: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
