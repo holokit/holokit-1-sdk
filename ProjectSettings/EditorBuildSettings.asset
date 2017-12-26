@@ -6,5 +6,5 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/HoloKitSDK/VertexDistorsion/Scenes/HoloKitCamera.unity
+    path: Assets/HoloKitSDK/v2/Scenes/HoloKitCamera.unity
     guid: e1051f39879e3d348ba8a56eff69abdc

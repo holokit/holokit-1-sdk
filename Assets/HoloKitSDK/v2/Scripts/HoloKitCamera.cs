@@ -10,6 +10,12 @@ namespace HoloKit
         MR = 1
     }
 
+    public enum EyeSide : int
+    {
+        Right = 0,
+        Left = 1
+    }
+
     public class HoloKitCamera : MonoBehaviour
     {
         private static HoloKitCamera instance;
@@ -24,28 +30,23 @@ namespace HoloKit
             }
         }
         public HoloKit.CameraType cameraType = CameraType.AR;
-        public Mesh distortedMeshR;
-        public Mesh distortedMeshL;
         public Camera cameraCenter;
-        public ProfileHoloKit.ModelType profileModel;
-        public ProfileHoloKit.PhoneType profilePhone;
+        public Camera cameraRight;
+        public Camera cameraLeft;
+        public HoloKitDistortionPost postefRight;
+        public HoloKitDistortionPost postefLeft;
+        public Transform holoKitOffset;
+        public Profile.ModelType profileModel;
+        public Profile.PhoneType profilePhone;
 
-        private Camera cameraLeft;
-        private Camera cameraRight;
-        private Transform holoKitOffset;
-        private RenderTexture renderTextureR;
-        private RenderTexture renderTextureL;
-        private GameObject distortedRoot;
-        private HoloKitDistortionPost distortedPostR;
-        private HoloKitDistortionPost distortedPostL;
         private int camCullingMask;
         private CameraClearFlags camClearFlags;
         private Color camColor;
         private HoloKit.CameraType oldCameraType;
 
-        private ProfileHoloKit profile;
-        private ProfileHoloKit.ModelType oldProfileModel;
-        private ProfileHoloKit.PhoneType oldProfilePhone;
+        public Profile profile;
+        private Profile.ModelType oldProfileModel;
+        private Profile.PhoneType oldProfilePhone;
 
         private void Awake()
         {
@@ -62,6 +63,14 @@ namespace HoloKit
 
             ChangeProfile();
             UpdateProfile();
+        }
+
+        void OnDestroy()
+        {
+            if (instance == this)
+            {
+                instance = null;
+            }
         }
 
         private void Update()
@@ -89,55 +98,12 @@ namespace HoloKit
 
         private void CreateAll()
         {
-            GameObject cgo, goCamR, goCamL;
             camCullingMask = cameraCenter.cullingMask;
-            camClearFlags = cameraCenter.clearFlags;
-            camColor = cameraCenter.backgroundColor;
-            //Creating offset
-            cgo = new GameObject("HoloKitOffset");
-            holoKitOffset = cgo.GetComponent<Transform>();
-
-            
-            //Creating right eye camera
-            goCamR = Instantiate(cameraCenter.gameObject, holoKitOffset);
-            goCamR.name = "cameraRight";
-            goCamR.tag = "Untagged";
-            goCamR.transform.localPosition = new Vector3(0.032f, 0f, 0f);
-            cameraRight = goCamR.GetComponent<Camera>();
-            renderTextureR = new RenderTexture(1024, 1024, 24, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Default);
-            cameraRight.targetTexture = renderTextureR;
-            cameraRight.cullingMask = 0;
-            
-            //Creating left eye camera
-            goCamL = Instantiate(cameraCenter.gameObject, holoKitOffset);
-            goCamL.name = "cameraLeft";
-            goCamL.tag = "Untagged";
-            goCamL.transform.localPosition = new Vector3(-0.032f, 0f, 0f);
-            cameraLeft = goCamL.GetComponent<Camera>();
-            renderTextureL = new RenderTexture(1024, 1024, 24, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Default);
-            cameraLeft.targetTexture = renderTextureL;
-            cameraLeft.cullingMask = 0;
-
-            holoKitOffset.parent = cameraCenter.transform;
-
-            //Creating Distorted objects holder
-            distortedRoot = new GameObject("HoloKitDistorted");
-            //Creating Distorted right camera
-            cgo = new GameObject("HoloKitDistortedR");
-            cgo.transform.parent = distortedRoot.transform;
-            distortedPostR = cgo.AddComponent<HoloKitDistortionPost>();
-            distortedPostR.Initialize(distortedMeshR, renderTextureR, HoloKitEyeSide.Right);
-            //Creating Distorted left camera
-            cgo = new GameObject("HoloKitDistortedL");
-            cgo.transform.parent = distortedRoot.transform;
-            distortedPostL = cgo.AddComponent<HoloKitDistortionPost>();
-            distortedPostL.Initialize(distortedMeshL, renderTextureL, HoloKitEyeSide.Left);
         }
 
         private void SwitchToModeAR()
         {
             holoKitOffset.gameObject.SetActive(false);
-            distortedRoot.SetActive(false);
             cameraCenter.cullingMask = camCullingMask;
             cameraCenter.clearFlags = camClearFlags;
             cameraCenter.backgroundColor = camColor;
@@ -146,7 +112,6 @@ namespace HoloKit
         private void SwitchToModeMR()
         {
             holoKitOffset.gameObject.SetActive(true);
-            distortedRoot.SetActive(true);
             cameraCenter.cullingMask = 0;
             cameraRight.cullingMask = camCullingMask;
             cameraLeft.cullingMask = camCullingMask;
@@ -156,32 +121,69 @@ namespace HoloKit
 
         private void ChangeProfile()
         {
-            profile = ProfileHoloKit.GetProfile(profileModel, profilePhone);
+            profile = Profile.GetProfile(profileModel);
             oldProfileModel = profileModel;
             oldProfilePhone = profilePhone;
         }
 
         private void UpdateProfile()
         {
-            holoKitOffset.localPosition = profile.model.mrOffset;
-            distortedPostR.addPosition = new Vector3(profile.phone.separation, 0f, 0.2f);
-            distortedPostL.addPosition = new Vector3(-profile.phone.separation, 0f, 0.2f);
-            Rect profileRect = profile.GetViewportRect();
+            holoKitOffset.localPosition = profile.model.mrOffset + profile.phone.cameraOffset;
+            cameraLeft.rect = profile.GetViewportRect(EyeSide.Left);
+            cameraRight.rect = profile.GetViewportRect(EyeSide.Right);
+            cameraLeft.fieldOfView = profile.model.fieldOfView;
+            cameraRight.fieldOfView = profile.model.fieldOfView;
+            cameraLeft.transform.localPosition = new Vector3(-profile.model.eyeDistance / 2f, 0f, 0f);
+            cameraRight.transform.localPosition = new Vector3(profile.model.eyeDistance / 2f, 0f, 0f);
+            postefRight.BarrelDistortionFactor = profile.model.distortion;
+            postefLeft.BarrelDistortionFactor = profile.model.distortion;
 
-            distortedPostR.mCamera.rect = new Rect(
-                0.5f,
-                profileRect.y,
-                profileRect.width / 2f,
-                profileRect.height);
-            distortedPostR.mCamera.orthographicSize = 0.5f; // Mathf.Min((profileRect.width / profileRect.height), (profileRect.height / profileRect.width));
+            //Calc and update projection matrix
+            float magnificationFactor = profile.model.lensLength / (profile.model.lensLength - profile.model.toScreenDist);
+            float renderScale = 1f;
+            float renderWidth = renderScale * profile.phone.screenWidth / 2f;
+            float screenHeightRatio = 1f - (profile.phone.screenBottom / profile.phone.screenHeight);
+            float renderHeight = renderScale * profile.phone.screenHeight * screenHeightRatio;
+            float renderInnerEyeWidth = renderScale * profile.model.eyeDistance / 2f;
+            float near = renderScale * profile.model.toEyeDist;
+            float far = 1000f;
+            //Debug.Log(string.Format("new {0} {1} {2} {3} {4}", magnificationFactor, renderScale, renderWidth, renderHeight, renderInnerEyeWidth, near, far));
+            Matrix4x4 leftEyeProjectionMatrix = Matrix4x4.zero;
+            leftEyeProjectionMatrix[0, 0] = 2.0f * near / renderWidth;
+            leftEyeProjectionMatrix[1, 1] = 2.0f * near / renderHeight;
+            leftEyeProjectionMatrix[0, 2] = (2f * renderInnerEyeWidth - renderWidth) / renderWidth;
+            leftEyeProjectionMatrix[2, 2] = -(far + near) / (far - near);
+            leftEyeProjectionMatrix[2, 3] = -(2.0f * far * near) / (far - near);
+            leftEyeProjectionMatrix[3, 2] = -1.0f;
+            Matrix4x4 rightEyeProjectionMatrix = leftEyeProjectionMatrix;
+            rightEyeProjectionMatrix[0, 2] = (renderWidth - 2f * renderInnerEyeWidth) / renderWidth;
+            cameraLeft.projectionMatrix = leftEyeProjectionMatrix;
+            cameraRight.projectionMatrix = rightEyeProjectionMatrix;
 
-            distortedPostL.mCamera.rect = new Rect(
-                0.5f - (profileRect.width / 2f),
-                profileRect.y,
-                profileRect.width / 2f,
-                profileRect.height);
-            distortedPostL.mCamera.orthographicSize = 0.5f; // Mathf.Min((profileRect.width / profileRect.height), (profileRect.height / profileRect.width));
+            /*float[] rect = new float[4];
+            rect[0] = -0.6153846f;
+            rect[1] = 0.9652906f;
+            rect[2] = 0.8205128f;
+            rect[3] = -0.7692308f;
+            Matrix4x4 leftEyeUndistortedProjection;
+            Matrix4x4 rightEyeUndistortedProjection;
+            leftEyeUndistortedProjection = MakeProjection(rect[0], rect[1], rect[2], rect[3], 1, 1000);
+            rightEyeUndistortedProjection = leftEyeUndistortedProjection;
+            rightEyeUndistortedProjection[0, 2] *= -1;*/
 
+        }
+
+        private static Matrix4x4 MakeProjection(float l, float t, float r, float b, float n, float f)
+        {
+            Matrix4x4 m = Matrix4x4.zero;
+            m[0, 0] = 2 * n / (r - l);
+            m[1, 1] = 2 * n / (t - b);
+            m[0, 2] = (r + l) / (r - l);
+            m[1, 2] = (t + b) / (t - b);
+            m[2, 2] = (n + f) / (n - f);
+            m[2, 3] = 2 * n * f / (n - f);
+            m[3, 2] = -1;
+            return m;
         }
     }
 }
