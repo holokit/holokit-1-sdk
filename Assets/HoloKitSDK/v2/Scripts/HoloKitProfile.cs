@@ -12,6 +12,7 @@ namespace HoloKit
         public enum PhoneType : int
         {
             Default = 0,
+            Unknown = 1,
             AppleiPhone6S = 100,
             AppleiPhone7 = 101,
             AppleiPhone7Plus = 102,
@@ -104,7 +105,7 @@ namespace HoloKit
             eyeDistance = 0.064f,
             mrOffset = new Vector3(0f, 0.04f, 0f),
             fieldOfView = 49.7f,
-            distortion = 1.6f,
+            distortion = 1.7f,
             viewWidth = 0.06f,
             viewHeight = 0.06f,
             lensLength = 0.090f,
@@ -215,7 +216,21 @@ namespace HoloKit
             screenBottom = 0.005f,
             cameraOffset = new Vector3(-0.05f, 0f, 0f)
         };
-        #endregion
+        private static readonly Phone PhoneUnknown = new Phone
+        {
+#if UNITY_EDITOR
+            //
+            screenWidth = 0.120f,
+            screenHeight = 0.06f,
+#else
+            //Get screen size in inches and convert it to meters
+            screenWidth = Mathf.Max((Screen.width / Screen.dpi) * 0.0254f, (Screen.height / Screen.dpi) * 0.0254f),
+            screenHeight = Mathf.Min((Screen.width / Screen.dpi) * 0.0254f, (Screen.height / Screen.dpi) * 0.0254f),
+#endif
+            screenBottom = 0.000f,
+            cameraOffset = new Vector3(0f, 0f, 0f)
+        };
+#endregion
 
         public Phone phone;
         public Model model;
@@ -275,7 +290,7 @@ namespace HoloKit
                     result.phone = PhoneSamsungS8;
                     break;
                 default:
-                    result.phone = PhoneAppleiPhone7;
+                    result.phone = PhoneUnknown;
                     break;
             }
 
@@ -310,7 +325,14 @@ namespace HoloKit
                     phoneType = PhoneType.AppleiPhoneX;
                     break;
                 default:
-                    Debug.LogWarning("Your iOS device is not officially supported by HoloKitSDK.");
+                    phoneType = PhoneType.Unknown;
+                        Debug.LogWarning(
+                        string.Format("HoloKit: Your device is not officially supported by HoloKitSDK. Screen w(m):{0} h(m):{1} w(p):{2} h(p):{3} dpi:{4}",
+                        PhoneUnknown.screenWidth,
+                        PhoneUnknown.screenHeight,
+                        Screen.width,
+                        Screen.height,
+                        Screen.dpi));
                     break;
             }
 #elif UNITY_ANDROID
@@ -337,8 +359,14 @@ namespace HoloKit
                     Debug.Log("HoloKit: Loaded configuration for Samsung S8");
                     break;
                 default:
-                    phoneType = PhoneType.GooglePixel;
-                    Debug.LogWarning("HoloKit: Your Android device is not officially supported by HoloKitSDK.");
+                    phoneType = PhoneType.Unknown;
+                    Debug.LogWarning(
+                        string.Format("HoloKit: Your device is not officially supported by HoloKitSDK. Screen w(m):{0} h(m):{1} w(p):{2} h(p):{3} dpi:{4}",
+                        PhoneUnknown.screenWidth,
+                        PhoneUnknown.screenHeight,
+                        Screen.width,
+                        Screen.height,
+                        Screen.dpi));
                     break;
             }
 #endif

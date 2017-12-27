@@ -122,9 +122,9 @@ MeshCollider:
   m_Material: {fileID: 13400000, guid: beba2f308446f43da8e82c54f30f93b5, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Convex: 0
-  m_InflateMesh: 0
+  m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: db8cc388ea4888745b92576ea4ff8119, type: 3}
 --- !u!65 &65070307931678292

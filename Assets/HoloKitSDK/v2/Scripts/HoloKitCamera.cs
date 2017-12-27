@@ -24,7 +24,7 @@ namespace HoloKit
             get {
                 if (instance == null)
                 {
-                    instance = instance = FindObjectOfType<HoloKitCamera>();
+                    instance = FindObjectOfType<HoloKitCamera>();
                 }
                 return instance;
             }
@@ -61,7 +61,7 @@ namespace HoloKit
                     break;
             }
 
-            ChangeProfile();
+            ChangeStartProfile();
             UpdateProfile();
         }
 
@@ -119,9 +119,16 @@ namespace HoloKit
             cameraCenter.backgroundColor = Color.black;
         }
 
-        private void ChangeProfile()
+        private void ChangeStartProfile()
         {
             profile = Profile.GetProfile(profileModel);
+            oldProfileModel = profileModel;
+            oldProfilePhone = profilePhone;
+        }
+
+        private void ChangeProfile()
+        {
+            profile = Profile.GetProfile(profileModel, profilePhone);
             oldProfileModel = profileModel;
             oldProfilePhone = profilePhone;
         }
@@ -129,61 +136,45 @@ namespace HoloKit
         private void UpdateProfile()
         {
             holoKitOffset.localPosition = profile.model.mrOffset + profile.phone.cameraOffset;
-            cameraLeft.rect = profile.GetViewportRect(EyeSide.Left);
-            cameraRight.rect = profile.GetViewportRect(EyeSide.Right);
+            Rect viewportLeft = profile.GetViewportRect(EyeSide.Left);
+            Rect viewportRight = profile.GetViewportRect(EyeSide.Right);
+            cameraLeft.rect = viewportLeft;
+            cameraRight.rect = viewportRight;
             cameraLeft.fieldOfView = profile.model.fieldOfView;
             cameraRight.fieldOfView = profile.model.fieldOfView;
             cameraLeft.transform.localPosition = new Vector3(-profile.model.eyeDistance / 2f, 0f, 0f);
             cameraRight.transform.localPosition = new Vector3(profile.model.eyeDistance / 2f, 0f, 0f);
-            postefRight.BarrelDistortionFactor = profile.model.distortion;
-            postefLeft.BarrelDistortionFactor = profile.model.distortion;
 
             //Calc and update projection matrix
+            Matrix4x4 leftEyeProjectionMatrix = Matrix4x4.zero;
+            Matrix4x4 rightEyeProjectionMatrix = Matrix4x4.zero;
             float magnificationFactor = profile.model.lensLength / (profile.model.lensLength - profile.model.toScreenDist);
             float renderScale = 1f;
             float renderWidth = renderScale * profile.phone.screenWidth / 2f;
             float screenHeightRatio = 1f - (profile.phone.screenBottom / profile.phone.screenHeight);
             float renderHeight = renderScale * profile.phone.screenHeight * screenHeightRatio;
             float renderInnerEyeWidth = renderScale * profile.model.eyeDistance / 2f;
-            float near = renderScale * profile.model.toEyeDist;
-            float far = 1000f;
-            //Debug.Log(string.Format("new {0} {1} {2} {3} {4}", magnificationFactor, renderScale, renderWidth, renderHeight, renderInnerEyeWidth, near, far));
-            Matrix4x4 leftEyeProjectionMatrix = Matrix4x4.zero;
+            float near = cameraCenter.nearClipPlane;
+            float far = cameraCenter.farClipPlane;
             leftEyeProjectionMatrix[0, 0] = 2.0f * near / renderWidth;
             leftEyeProjectionMatrix[1, 1] = 2.0f * near / renderHeight;
             leftEyeProjectionMatrix[0, 2] = (2f * renderInnerEyeWidth - renderWidth) / renderWidth;
             leftEyeProjectionMatrix[2, 2] = -(far + near) / (far - near);
             leftEyeProjectionMatrix[2, 3] = -(2.0f * far * near) / (far - near);
             leftEyeProjectionMatrix[3, 2] = -1.0f;
-            Matrix4x4 rightEyeProjectionMatrix = leftEyeProjectionMatrix;
+            rightEyeProjectionMatrix = leftEyeProjectionMatrix;
             rightEyeProjectionMatrix[0, 2] = (renderWidth - 2f * renderInnerEyeWidth) / renderWidth;
+
             cameraLeft.projectionMatrix = leftEyeProjectionMatrix;
             cameraRight.projectionMatrix = rightEyeProjectionMatrix;
-
-            /*float[] rect = new float[4];
-            rect[0] = -0.6153846f;
-            rect[1] = 0.9652906f;
-            rect[2] = 0.8205128f;
-            rect[3] = -0.7692308f;
-            Matrix4x4 leftEyeUndistortedProjection;
-            Matrix4x4 rightEyeUndistortedProjection;
-            leftEyeUndistortedProjection = MakeProjection(rect[0], rect[1], rect[2], rect[3], 1, 1000);
-            rightEyeUndistortedProjection = leftEyeUndistortedProjection;
-            rightEyeUndistortedProjection[0, 2] *= -1;*/
-
-        }
-
-        private static Matrix4x4 MakeProjection(float l, float t, float r, float b, float n, float f)
-        {
-            Matrix4x4 m = Matrix4x4.zero;
-            m[0, 0] = 2 * n / (r - l);
-            m[1, 1] = 2 * n / (t - b);
-            m[0, 2] = (r + l) / (r - l);
-            m[1, 2] = (t + b) / (t - b);
-            m[2, 2] = (n + f) / (n - f);
-            m[2, 3] = 2 * n * f / (n - f);
-            m[3, 2] = -1;
-            return m;
+            postefRight.BarrelDistortionFactor = profile.model.distortion;
+            postefLeft.BarrelDistortionFactor = profile.model.distortion;
+            //postefLeft.HorizontalOffsetFactor = 0.5f - renderInnerEyeWidth / renderWidth;
+            postefLeft.HorizontalOffsetFactor = 0f;
+            postefLeft.VerticalOffsetFactor = 0f;
+            //postefRight.HorizontalOffsetFactor = renderInnerEyeWidth / renderWidth - 0.5f;
+            postefRight.HorizontalOffsetFactor = 0f;
+            postefRight.VerticalOffsetFactor = 0f;
         }
     }
 }

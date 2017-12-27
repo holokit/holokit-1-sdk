@@ -10,6 +10,8 @@ namespace HoloKit
     {
         [Range(-5f, 5f)]
         public float BarrelDistortionFactor = 0f;
+        public float HorizontalOffsetFactor = 0f;
+        public float VerticalOffsetFactor = 0f;
         public Shader BarrelDistortionShader = null;
         public Material BarrelDistortionMaterial = null;
 
@@ -19,8 +21,9 @@ namespace HoloKit
             {
                 Graphics.Blit(src, dest);
             }
-
             BarrelDistortionMaterial.SetFloat("_BarrelDistortionFactor", BarrelDistortionFactor);
+            BarrelDistortionMaterial.SetFloat("_HorizontalOffsetFactor", HorizontalOffsetFactor);
+            BarrelDistortionMaterial.SetFloat("_VerticalOffsetFactor", VerticalOffsetFactor);
 
             Graphics.Blit(src, dest, BarrelDistortionMaterial);
         }
