@@ -148,7 +148,8 @@ namespace HoloKit
             //Calc and update projection matrix
             Matrix4x4 leftEyeProjectionMatrix = Matrix4x4.zero;
             Matrix4x4 rightEyeProjectionMatrix = Matrix4x4.zero;
-            float magnificationFactor = profile.model.lensLength / (profile.model.lensLength - profile.model.toScreenDist);
+            // Old matrix system
+            /*float magnificationFactor = profile.model.lensLength / (profile.model.lensLength - profile.model.toScreenDist);
             float renderScale = 1f;
             float renderWidth = renderScale * profile.phone.screenWidth / 2f;
             float screenHeightRatio = 1f - (profile.phone.screenBottom / profile.phone.screenHeight);
@@ -164,9 +165,16 @@ namespace HoloKit
             leftEyeProjectionMatrix[3, 2] = -1.0f;
             rightEyeProjectionMatrix = leftEyeProjectionMatrix;
             rightEyeProjectionMatrix[0, 2] = (renderWidth - 2f * renderInnerEyeWidth) / renderWidth;
-
+            cameraLeft.projectionMatrix = leftEyeProjectionMatrix;
+            cameraRight.projectionMatrix = rightEyeProjectionMatrix;*/
+            
+            /*
+            leftEyeProjectionMatrix = MakeProjection(viewportLeft.xMin, viewportLeft.yMin, viewportLeft.xMax, viewportLeft.yMax, cameraCenter.nearClipPlane, cameraCenter.farClipPlane);
+            rightEyeProjectionMatrix = MakeProjection(viewportRight.xMin, viewportRight.yMin, viewportRight.xMax, viewportRight.yMax, cameraCenter.nearClipPlane, cameraCenter.farClipPlane);
+            rightEyeProjectionMatrix[0, 2] *= -1f;
             cameraLeft.projectionMatrix = leftEyeProjectionMatrix;
             cameraRight.projectionMatrix = rightEyeProjectionMatrix;
+            */
             postefRight.BarrelDistortionFactor = profile.model.distortion;
             postefLeft.BarrelDistortionFactor = profile.model.distortion;
             //postefLeft.HorizontalOffsetFactor = 0.5f - renderInnerEyeWidth / renderWidth;
@@ -175,6 +183,19 @@ namespace HoloKit
             //postefRight.HorizontalOffsetFactor = renderInnerEyeWidth / renderWidth - 0.5f;
             postefRight.HorizontalOffsetFactor = 0f;
             postefRight.VerticalOffsetFactor = 0f;
+        }
+
+        private Matrix4x4 MakeProjection(float left, float top, float right, float bottom, float near, float far)
+        {
+            Matrix4x4 m = Matrix4x4.zero;
+            m[0, 0] = 2f * near / (right - left);
+            m[1, 1] = 2f * near / (top - bottom);
+            m[0, 2] = (right + left) / (right - left);
+            m[1, 2] = (top + bottom) / (top - bottom);
+            m[2, 2] = (near + far) / (near - far);
+            m[2, 3] = 2f * near * far / (near - far);
+            m[3, 2] = -1f;
+            return m;
         }
     }
 }
