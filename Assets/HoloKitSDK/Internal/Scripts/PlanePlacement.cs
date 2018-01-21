@@ -29,7 +29,7 @@ namespace HoloKit
         
         private void Update()
         {
-            if ((isPlaceOnTouch && Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began) ||
+            if ((isPlaceOnTouch && Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began && !UITool.IsOverUI(Input.touches[0].position)) ||
                 (isPlaceOnKey && HoloKitInputManager.Instance.GetKeyDown(placeKey)))
             {
                 PlaceObject();
@@ -50,9 +50,6 @@ namespace HoloKit
                     screenPoint = Input.mousePosition;
                     break;
             }
-
-            if (UITool.IsOverUI(screenPoint))
-                return;
 
             Ray ray = camera.ScreenPointToRay(screenPoint);
             RaycastHit rayHit;
