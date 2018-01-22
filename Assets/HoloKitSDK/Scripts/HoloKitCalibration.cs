@@ -4,23 +4,28 @@ using UnityEngine;
 
 namespace HoloKit {
     public static class HoloKitCalibration {
+
+        // This is for HoloKit Apple revision
 		private static void loadiPhone55InchCalibration(HoloKitCameraRigController cameraRig) 
         {
-            cameraRig.CameraOffset = new Vector3(0.06960f, -0.10945f, -0.09065f - 0.012f);
+            cameraRig.CameraOffset = new Vector3(0.06960f, -0.09027f, -0.07046f - 0.008f);
             cameraRig.PupilDistance = 0.064f;
-            cameraRig.PhoneScreenHeight = 0.122f;
-            cameraRig.PhoneScreenWidth = 0.068f;
-            cameraRig.FresnelLensFocalLength = 0.090f;
-            cameraRig.ScreenToFresnelDistance = 0.0762f;
-            cameraRig.FresnelToEyeDistance = 0.085f + 0.012f;
-            cameraRig.ViewportHeightRatio = 1f;
+            cameraRig.FresnelLensFocalLength = 0.069f;
+            cameraRig.ScreenToFresnelDistance = 0.06149f; 
+            cameraRig.FresnelToEyeDistance = 0.06544f + 0.008f; 
+ 
+            cameraRig.PhoneScreenHeight = 0.12015f;
+            cameraRig.PhoneScreenWidth = 0.06816f;
+            cameraRig.LeftViewportCenter = new Vector2(0.030f, 0.02525f);
+            cameraRig.RightViewportCenter = new Vector2(0.090075f, 0.02525f);
+            cameraRig.ViewportSize = new Vector2(0.06000f, 0.05350f);
 
             cameraRig.RedDistortionFactor = 0f;
             cameraRig.GreenDistortionFactor = 0f;
             cameraRig.BlueDistortionFactor = 0f;
-            cameraRig.BarrelDistortionFactor = 1.6f;
+            cameraRig.BarrelDistortionFactor = 0f;
 
-            Debug.Log("Calibration data loaded for 5.5 inch device. ");
+            Debug.Log("Calibration data loaded for iPhone8+ on HoloKit Apple Revision");
         }
 
         private static void loadiPhone45InchCalibration(HoloKitCameraRigController cameraRig) 
@@ -62,9 +67,7 @@ namespace HoloKit {
         }
 
         
-        /// <Summary>
-        /// This is for the Apple HoloKit
-        /// </Summary>
+        // This is for HoloKit Apple revision
 		private static void loadiPhoneXCalibration(HoloKitCameraRigController cameraRig) 
         {
             cameraRig.CameraOffset = new Vector3(0.06036f, -0.09350f, -0.07061f - 0.008f);
@@ -82,9 +85,9 @@ namespace HoloKit {
             cameraRig.RedDistortionFactor = 0f;
             cameraRig.GreenDistortionFactor = 0f;
             cameraRig.BlueDistortionFactor = 0f;
-            cameraRig.BarrelDistortionFactor = 1.6f;
+            cameraRig.BarrelDistortionFactor = 0f;
 
-            Debug.Log("Calibration data loaded for iPhoneX. ");
+            Debug.Log("Calibration data loaded for iPhoneX on HoloKit Apple Revision");
         }
         
         private static void loadLenovoPhab2ProTangoCalibration(HoloKitCameraRigController cameraRig) 
@@ -179,6 +182,7 @@ namespace HoloKit {
 
                 case UnityEngine.iOS.DeviceGeneration.iPhone6SPlus:
                 case UnityEngine.iOS.DeviceGeneration.iPhone7Plus:
+                case UnityEngine.iOS.DeviceGeneration.iPhone8Plus:
                     loadiPhone55InchCalibration(cameraRig);
                     break;
 
