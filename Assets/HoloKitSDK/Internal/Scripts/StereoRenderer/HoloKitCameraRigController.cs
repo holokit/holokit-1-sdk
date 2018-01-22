@@ -284,13 +284,10 @@ namespace HoloKit
         void UpdateProjectMatrix() {
             float magnificationFactor = fresnelLensFocalLength / (fresnelLensFocalLength - screenToFresnelDistance);
             float renderScale = 1;
-            // float renderWidth = renderScale * PhoneScreenHeight / 2;
             float renderWidth = renderScale * viewportSize.x;
-            // float renderHeight = renderScale * PhoneScreenWidth * ViewportHeightRatio;
             float renderHeight = renderScale * viewportSize.y; 
 
-            // float halfMiddleSpace = (RightViewportCenter.x - LeftViewportCenter.x) / 2 - ViewportSize.x / 2;
-            float renderInnerEyeWidth = renderScale * PupilDistance / 2; // - halfMiddleSpace;
+            float renderInnerEyeWidth = renderScale * PupilDistance / 2; 
             float near = renderScale * FresnelToEyeDistance;
             float far = 1000;
             

@@ -205,71 +205,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fceecd9b0c68a4c91b2642b302199574, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &304526381
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 304526382}
-  - component: {fileID: 304526385}
-  m_Layer: 0
-  m_Name: BlackMask
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &304526382
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 304526381}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 2011333114}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!20 &304526385
-Camera:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 304526381}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_ClearFlags: 2
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
-  m_NormalizedViewPortRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
-  field of view: 60
-  orthographic: 0
-  orthographic size: 5
-  m_Depth: 0.5
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 0
-  m_RenderingPath: -1
-  m_TargetTexture: {fileID: 0}
-  m_TargetDisplay: 0
-  m_TargetEye: 3
-  m_HDR: 0
-  m_AllowMSAA: 0
-  m_AllowDynamicResolution: 0
-  m_ForceIntoRT: 0
-  m_OcclusionCulling: 0
-  m_StereoConvergence: 10
-  m_StereoSeparation: 0.022
 --- !u!1001 &442159292
 Prefab:
   m_ObjectHideFlags: 0
@@ -351,56 +286,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114212386276063438, guid: 26534a6c890f74fbfbaf6372ac88cf50,
-        type: 2}
-      propertyPath: BarrelDistortionMaterial
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 114166964547143428, guid: 26534a6c890f74fbfbaf6372ac88cf50,
         type: 2}
       propertyPath: BarrelDistortionMaterial
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 114847015135232524, guid: 26534a6c890f74fbfbaf6372ac88cf50,
+    - target: {fileID: 114212386276063438, guid: 26534a6c890f74fbfbaf6372ac88cf50,
         type: 2}
-      propertyPath: SeeThroughMode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 20850376228395146, guid: 26534a6c890f74fbfbaf6372ac88cf50,
-        type: 2}
-      propertyPath: m_BackGroundColor.r
-      value: 0.21323532
-      objectReference: {fileID: 0}
-    - target: {fileID: 20850376228395146, guid: 26534a6c890f74fbfbaf6372ac88cf50,
-        type: 2}
-      propertyPath: m_BackGroundColor.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 20850376228395146, guid: 26534a6c890f74fbfbaf6372ac88cf50,
-        type: 2}
-      propertyPath: m_BackGroundColor.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 20466219612664508, guid: 26534a6c890f74fbfbaf6372ac88cf50,
-        type: 2}
-      propertyPath: m_BackGroundColor.r
-      value: 0.21323532
-      objectReference: {fileID: 0}
-    - target: {fileID: 20466219612664508, guid: 26534a6c890f74fbfbaf6372ac88cf50,
-        type: 2}
-      propertyPath: m_BackGroundColor.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 20466219612664508, guid: 26534a6c890f74fbfbaf6372ac88cf50,
-        type: 2}
-      propertyPath: m_BackGroundColor.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114847015135232524, guid: 26534a6c890f74fbfbaf6372ac88cf50,
-        type: 2}
-      propertyPath: BlackMask
+      propertyPath: BarrelDistortionMaterial
       value: 
-      objectReference: {fileID: 304526385}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 26534a6c890f74fbfbaf6372ac88cf50, type: 2}
   m_IsPrefabParent: 0
@@ -687,11 +582,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 10dfd78ec0bb54c1a8a3f1ce36d41011, type: 2}
   m_IsPrefabParent: 0
---- !u!4 &2011333114 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 4730678832593770, guid: 26534a6c890f74fbfbaf6372ac88cf50,
-    type: 2}
-  m_PrefabInternal: {fileID: 827739715}
 --- !u!1 &2128167778
 GameObject:
   m_ObjectHideFlags: 0
