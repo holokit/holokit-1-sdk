@@ -42,6 +42,10 @@ Shader "Hidden/BarrelDistortion" {
 		float2 uv = i.uv - center;
 		float z = sqrt(1.0 - uv.x * uv.x - uv.y * uv.y);
 		float a = 1.0 / (z * tan(_BarrelDistortionFactor * 0.5));
+
+        // Temporarily disable distortion
+        a = 1;
+
 		float2 uv2 = (uv * a) + center;
 		float2 red_uv = (uv * a * (1 + _RedDistortionFactor)) + center;
 		float2 green_uv = (uv * a * (1 + _GreenDistortionFactor)) + center;

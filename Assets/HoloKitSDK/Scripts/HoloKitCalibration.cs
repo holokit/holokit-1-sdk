@@ -60,6 +60,32 @@ namespace HoloKit {
 
             Debug.Log("Calibration data loaded for ASUS ZenFone AR. ");
         }
+
+        
+        /// <Summary>
+        /// This is for the Apple HoloKit
+        /// </Summary>
+		private static void loadiPhoneXCalibration(HoloKitCameraRigController cameraRig) 
+        {
+            cameraRig.CameraOffset = new Vector3(0.06036f, -0.09350f, -0.07061f - 0.008f);
+            cameraRig.PupilDistance = 0.064f;
+            cameraRig.FresnelLensFocalLength = 0.069f;
+            cameraRig.ScreenToFresnelDistance = 0.06149f; 
+            cameraRig.FresnelToEyeDistance = 0.06544f + 0.008f; 
+ 
+            cameraRig.PhoneScreenHeight = 0.13656f;
+            cameraRig.PhoneScreenWidth = 0.06414f;
+            cameraRig.LeftViewportCenter = new Vector2(0.03838f, 0.026755f);
+            cameraRig.RightViewportCenter = new Vector2(0.09838f, 0.026755f);
+            cameraRig.ViewportSize = new Vector2(0.06000f, 0.05351f);
+
+            cameraRig.RedDistortionFactor = 0f;
+            cameraRig.GreenDistortionFactor = 0f;
+            cameraRig.BlueDistortionFactor = 0f;
+            cameraRig.BarrelDistortionFactor = 1.6f;
+
+            Debug.Log("Calibration data loaded for iPhoneX. ");
+        }
         
         private static void loadLenovoPhab2ProTangoCalibration(HoloKitCameraRigController cameraRig) 
         {
@@ -156,8 +182,12 @@ namespace HoloKit {
                     loadiPhone55InchCalibration(cameraRig);
                     break;
 
+                case UnityEngine.iOS.DeviceGeneration.iPhoneX:
+                    loadiPhoneXCalibration(cameraRig);
+                    break;
+
                 default:
-                    loadiPhone55InchCalibration(cameraRig);
+                    loadiPhoneXCalibration(cameraRig);
                     Debug.LogWarning("Your iOS device is not officially supported by HoloKitSDK.");
                     break;
             }

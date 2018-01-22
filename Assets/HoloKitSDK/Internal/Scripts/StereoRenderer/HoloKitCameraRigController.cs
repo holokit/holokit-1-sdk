@@ -38,6 +38,11 @@ namespace HoloKit
 
         public float phoneScreenHeight;
         public float phoneScreenWidth;
+
+        public Vector2 leftViewportCenter;
+        public Vector2 rightViewportCenter;
+        public Vector2 viewportSize;
+
         public float fresnelLensFocalLength;
         public float screenToFresnelDistance;
         public float fresnelToEyeDistance;
@@ -52,6 +57,9 @@ namespace HoloKit
         public Transform HoloKitOffset;
         public Camera LeftCamera;
         public Camera RightCamera;
+
+        // TODO: Replace this with a shader
+        public Camera BlackMask;
 
         public LayerMask centerCullingMask;
 
@@ -119,6 +127,45 @@ namespace HoloKit
             set
             {
                 phoneScreenWidth = value;
+            }
+        }
+
+        public override Vector2 LeftViewportCenter
+        {
+            get 
+            {
+                return leftViewportCenter;
+            }
+
+            set 
+            {
+                leftViewportCenter = value;
+            }
+        }
+
+        public override Vector2 RightViewportCenter 
+        {
+            get 
+            {
+                return rightViewportCenter;
+            }
+
+            set 
+            {
+                rightViewportCenter = value;
+            }
+        }
+
+        public override Vector2 ViewportSize
+        {
+            get 
+            {
+                return viewportSize;
+            }
+
+            set
+            {
+                viewportSize = value;
             }
         }
 
@@ -237,9 +284,13 @@ namespace HoloKit
         void UpdateProjectMatrix() {
             float magnificationFactor = fresnelLensFocalLength / (fresnelLensFocalLength - screenToFresnelDistance);
             float renderScale = 1;
-            float renderWidth = renderScale * PhoneScreenHeight / 2;
-            float renderHeight = renderScale * PhoneScreenWidth * ViewportHeightRatio;
-            float renderInnerEyeWidth = renderScale * PupilDistance / 2;
+            // float renderWidth = renderScale * PhoneScreenHeight / 2;
+            float renderWidth = renderScale * viewportSize.x;
+            // float renderHeight = renderScale * PhoneScreenWidth * ViewportHeightRatio;
+            float renderHeight = renderScale * viewportSize.y; 
+
+            // float halfMiddleSpace = (RightViewportCenter.x - LeftViewportCenter.x) / 2 - ViewportSize.x / 2;
+            float renderInnerEyeWidth = renderScale * PupilDistance / 2; // - halfMiddleSpace;
             float near = renderScale * FresnelToEyeDistance;
             float far = 1000;
             
@@ -255,9 +306,10 @@ namespace HoloKit
             rightEyeProjectionMatrix[0, 2] = (renderWidth - 2 * renderInnerEyeWidth) / renderWidth;
 
             LeftCamera.projectionMatrix = leftEyeProjectionMatrix;
-            LeftCamera.rect = new Rect(0.0f, 0.0f, 0.5f, ViewportHeightRatio);
+            LeftCamera.rect = getViewport(LeftViewportCenter, ViewportSize, phoneScreenWidth, phoneScreenHeight);
+
             RightCamera.projectionMatrix = rightEyeProjectionMatrix;
-            RightCamera.rect = new Rect(0.5f, 0.0f, 0.5f, ViewportHeightRatio);
+            RightCamera.rect = getViewport(RightViewportCenter, ViewportSize, phoneScreenWidth, phoneScreenHeight);
 
             leftBarrel.RedDistortionFactor = RedDistortionFactor;
             leftBarrel.GreenDistortionFactor = GreenDistortionFactor;
@@ -280,7 +332,6 @@ namespace HoloKit
             rightBarrel = RightCamera.GetComponent<BarrelDistortion>();
             centerCullingMask = CenterCamera.cullingMask;
 
-
             HoloKitCalibration.LoadDefaultCalibration(this);
             UpdateProjectMatrix();
             
@@ -295,10 +346,13 @@ namespace HoloKit
         {
             LeftCamera.gameObject.SetActive(SeeThroughMode == SeeThroughMode.MR);
             RightCamera.gameObject.SetActive(SeeThroughMode == SeeThroughMode.MR);
+            BlackMask.gameObject.SetActive(SeeThroughMode == SeeThroughMode.MR);
 
             bool arVideoEnabled = (SeeThroughMode == SeeThroughMode.AR);
 
             CenterCamera.cullingMask = arVideoEnabled ? centerCullingMask : (LayerMask)0;
+            CenterCamera.backgroundColor = arVideoEnabled ? Color.green : Color.black;
+
             LeftCamera.cullingMask = centerCullingMask;
             RightCamera.cullingMask = centerCullingMask;
 
@@ -308,11 +362,30 @@ namespace HoloKit
                     ? SeeThroughMode.MR
                     : SeeThroughMode.AR;
             }
+
+            if (Application.isEditor)
+            {
+                UpdateProjectMatrix();
+            }
         }
 
         void OnDestroy()
         {
             instance = null;
+        }
+
+        private static Rect getViewport(Vector2 viewportCenter, Vector2 viewportSize, float phoneWidth, float phoneHeight) 
+        {
+            // Phone is always in landscape mode
+            float screenWidth = phoneHeight;
+            float screenHeight = phoneWidth;
+
+            float x = (viewportCenter.x - viewportSize.x / 2) / screenWidth;
+            float y = (viewportCenter.y - viewportSize.y / 2) / screenHeight;
+            float width = viewportSize.x / screenWidth; 
+            float height = viewportSize.y / screenHeight;
+
+            return new Rect(x, y, width, height);
         }
     }
 }
