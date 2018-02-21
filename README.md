@@ -11,23 +11,23 @@ For detailed manual, please see [HoloKitSDK Reference Manual](docs/MANUAL.md).
 
 ## Prerequists(iOS)
 * You must be an [Apple Developer](https://developer.apple.com/programs/). 
-* An iOS device that supports ARKit and running iOS 11.
+* An iOS device that supports ARKit and running iOS 11.3.
     * We tested HoloKitSDK with iPhone 7 Plus. 
-    * See below for guidance on upgrading to iOS 11. 
-* Unity 2017.2.0f3 or later. Make sure you installed iOS components.
-* [XCode 9](https://developer.apple.com/download/). You need to log in to download it with your Apple Developer account. 
+    * See below for guidance on upgrading to iOS 11.3. 
+* Unity 2017.3.1f3 or later. Make sure you installed iOS components.
+* [XCode 9.3](https://developer.apple.com/download/). You need to log in to download it with your Apple Developer account. 
 
 ## Prerequists(Android)
 * An Android device that supports ARCore with Android SDK version 7.0 (API Level 24) or higher.
 - Google Pixel and Pixel XL (tested)
 - Samsung Galaxy S8
-* Unity 2017.2.0f3 or later. Make sure you installed Android components.
+* Unity 2017.3.1f3 or later. Make sure you installed Android components.
 * Android Studio with Android SDK installed.
 - Prepare your device
   - Enable developer options
   - Enable USB debugging
-  - Download the [ARCore Service](https://github.com/google-ar/arcore-android-sdk/releases/download/sdk-preview/arcore-preview.apk), then install it with the following adb command: 
-    adb install -r -d arcore-preview.apk
+  - Download the [ARCore Service Preview 2](https://github.com/google-ar/arcore-android-sdk/releases/download/sdk-preview2/arcore-preview2.apk), then install it with the following adb command: 
+    adb install -r -d arcore-preview2.apk
 
 ## Quick Start(iOS)
 1. Import "HoloKitSDK" folder under "Assets" folder into a new Unity project.
@@ -38,7 +38,7 @@ For detailed manual, please see [HoloKitSDK Reference Manual](docs/MANUAL.md).
 Make sure that the paramaters below is correct. Player Settings -> Other Settings
 Artectecture: ARM64
 Camera Usage Description: "Blahblah...".
-Target minimum iOS version: 11.0
+Target minimum iOS version: 11.3
 
 5. Choose a location to put the XCode project. After the build is done, open "Unity-iPhone.xcodeproj". Make sure you open it with XCode 9.
 6. In Xcode, change your build target to your actual device. 
@@ -78,15 +78,15 @@ Click Player Settings to open the Android Player Settings. Then change the follo
 5. If you don't like the ambient light, please disable HoloKitAmbientLight in your scene.
 
   
-## How to upgrade to iOS 11 Beta
+## How to upgrade to iOS 11.3 Beta
 1. Backup your device. See "Prepare your device before you update to beta software" section in [About iOS beta software](https://support.apple.com/en-us/HT203282)
-2. Follow [iOS beta Software Installation Guide](https://developer.apple.com/support/beta-software/install-ios-beta/) to install iOS 11 Beta. Briefly,
+2. Follow [iOS beta Software Installation Guide](https://developer.apple.com/support/beta-software/install-ios-beta/) to install iOS 11.3 Beta. Briefly,
     1. Use Safari on your **iOS device** to open [https://developer.apple.com](https://developer.apple.com) and login with your Apple Developer account.
-    2. Go to [https://developer.apple.com/download](https://developer.apple.com/download) and click "Download" button for iOS 11 beta. 
+    2. Go to [https://developer.apple.com/download](https://developer.apple.com/download) and click "Download" button for iOS 11.3 beta. 
         * ![Screenshot](images/iOS11Download.png)
     3. In the pop-up window, click "Install" 
         * ![Screenshot](images/iOS11Install.png)
-    4. After accepting the agreement and restarting your device, you could install iOS 11 Beta from "Settings" -> "General" -> "Software Update". 
+    4. After accepting the agreement and restarting your device, you could install iOS 11.3 Beta from "Settings" -> "General" -> "Software Update". 
         * ![Screenshot](images/iOS11InstallPage.png)
   
 ## Troubleshooting

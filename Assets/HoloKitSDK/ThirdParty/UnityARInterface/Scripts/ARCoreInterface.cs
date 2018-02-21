@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using GoogleARCore;
 using GoogleARCoreInternal;
 using System.Collections;
 using System.Runtime.InteropServices;
+using UnityEngine.XR;
 
 namespace UnityARInterface
 {
@@ -48,9 +49,11 @@ namespace UnityARInterface
         private Dictionary<TrackedPlane, BoundedPlane> m_TrackedPlanes = new Dictionary<TrackedPlane, BoundedPlane>();
         private SessionManager m_SessionManager;
         private ARCoreSessionConfig m_ARCoreSessionConfig;
-        private ARCoreBackgroundRenderer m_BackgroundRenderer;
+        private ARBackgroundRenderer m_BackgroundRenderer;
         private Matrix4x4 m_DisplayTransform = Matrix4x4.identity;
         private List<Vector4> m_TempPointCloud = new List<Vector4>();
+        private Dictionary<ARAnchor, Anchor> m_Anchors = new Dictionary<ARAnchor, Anchor>();
+        private bool m_BackgroundRendering;
 
         public override bool IsSupported
         {
@@ -66,6 +69,23 @@ namespace UnityARInterface
             }
         }
 
+        public override bool BackgroundRendering
+        {
+            get
+            {
+                return m_BackgroundRendering;
+            }
+            set
+            {
+                if (m_BackgroundRenderer == null)
+                    return;
+
+                m_BackgroundRendering = value;
+                m_BackgroundRenderer.mode = m_BackgroundRendering ? 
+                    ARRenderMode.MaterialAsBackground : ARRenderMode.StandardBackground;
+            }
+        }
+
         public override IEnumerator StartService(Settings settings)
         {
             if (m_ARCoreSessionConfig == null)
@@ -74,7 +94,7 @@ namespace UnityARInterface
             m_ARCoreSessionConfig.EnableLightEstimation = settings.enableLightEstimation;
             m_ARCoreSessionConfig.EnablePlaneFinding = settings.enablePlaneDetection;
             //Do we want to match framerate to the camera?
-            m_ARCoreSessionConfig.MatchCameraFramerate = false;
+            m_ARCoreSessionConfig.MatchCameraFramerate = true;
 
             //Using the SessionManager instead of ARCoreSession allows us to check if the config is supported,
             //And also using the session without the need for a GameObject or an additional MonoBehaviour.
@@ -200,10 +220,20 @@ namespace UnityARInterface
 
         public override void StopService()
         {
+            var anchors = m_Anchors.Keys;
+            foreach (var anchor in anchors)
+            {
+                DestroyAnchor(anchor);
+            }
             Frame.Destroy();
             Session.Destroy();
             TextureReader_destroy();
+            BackgroundRendering = false;
+            m_BackgroundRenderer.backgroundMaterial = null;
+            m_BackgroundRenderer.camera = null;
+            m_BackgroundRenderer = null;
             IsRunning = false;
+            m_SessionManager = null;
         }
 
         public override bool TryGetUnscaledPose(ref Pose pose)
@@ -374,26 +404,45 @@ namespace UnityARInterface
 
         public override void SetupCamera(Camera camera)
         {
-            camera.gameObject.SetActive(false);
-            m_BackgroundRenderer = camera.gameObject.AddComponent<ARCoreBackgroundRenderer>();
-            m_BackgroundRenderer.BackgroundMaterial = Resources.Load("Materials/ARBackground", typeof(Material)) as Material;
-            camera.gameObject.SetActive(true);
+            m_BackgroundRenderer = new ARBackgroundRenderer();
+            m_BackgroundRenderer.backgroundMaterial = Resources.Load("Materials/ARBackground", typeof(Material)) as Material;
+            m_BackgroundRenderer.camera = camera;
         }
 
         public override void UpdateCamera(Camera camera)
         {
-            if (Screen.orientation == m_CachedScreenOrientation)
+            if (Screen.orientation != m_CachedScreenOrientation){
+                CalculateDisplayTransform();
+                m_CachedScreenOrientation = Screen.orientation;
+            }
+
+            if (!m_BackgroundRendering || Frame.CameraImage.Texture == null)
                 return;
 
-            CalculateDisplayTransform();
-            m_CachedScreenOrientation = Screen.orientation;
+            const string mainTexVar = "_MainTex";
+            const string topLeftRightVar = "_UvTopLeftRight";
+            const string bottomLeftRightVar = "_UvBottomLeftRight";
+
+            m_BackgroundRenderer.backgroundMaterial.SetTexture(mainTexVar, Frame.CameraImage.Texture);
+
+            ApiDisplayUvCoords uvQuad = Frame.CameraImage.DisplayUvCoords;
+
+            m_BackgroundRenderer.backgroundMaterial.SetVector(topLeftRightVar,
+                new Vector4(uvQuad.TopLeft.x, uvQuad.TopLeft.y, uvQuad.TopRight.x, uvQuad.TopRight.y));
+            m_BackgroundRenderer.backgroundMaterial.SetVector(bottomLeftRightVar,
+                new Vector4(uvQuad.BottomLeft.x, uvQuad.BottomLeft.y, uvQuad.BottomRight.x, uvQuad.BottomRight.y));
+
+            camera.projectionMatrix = Frame.CameraImage.GetCameraProjectionMatrix(
+                camera.nearClipPlane, camera.farClipPlane);
+
         }
 
         private bool PlaneUpdated(TrackedPlane tp, BoundedPlane bp)
         {
-            var extents = (tp.ExtentX != bp.extents.x || tp.ExtentZ != bp.extents.y);
+            var tpExtents = new Vector2(tp.ExtentX, tp.ExtentZ);
+            var extents = Vector2.Distance(tpExtents, bp.extents) > 0.005f;
             var rotation = tp.Rotation != bp.rotation;
-            var position = tp.Position != bp.center;
+            var position = Vector2.Distance(tp.Position,  bp.center) > 0.005f;
             return (extents || rotation || position);
         }
 
@@ -409,58 +458,96 @@ namespace UnityARInterface
             if (Frame.TrackingState != TrackingState.Tracking)
                 return;
 
-            Frame.GetPlanes(m_TrackedPlaneBuffer);
-            foreach (var trackedPlane in m_TrackedPlaneBuffer)
+            if(m_ARCoreSessionConfig.EnablePlaneFinding)
             {
-                BoundedPlane boundedPlane;
-                if (m_TrackedPlanes.TryGetValue(trackedPlane, out boundedPlane))
+                Frame.GetPlanes(m_TrackedPlaneBuffer);
+                foreach (var trackedPlane in m_TrackedPlaneBuffer)
                 {
-                    // remove any subsumed planes
-                    if (trackedPlane.SubsumedBy != null)
+                    BoundedPlane boundedPlane;
+                    if (m_TrackedPlanes.TryGetValue(trackedPlane, out boundedPlane))
                     {
-                        OnPlaneRemoved(boundedPlane);
-                        m_TrackedPlanes.Remove(trackedPlane);
+                        // remove any subsumed planes
+                        if (trackedPlane.SubsumedBy != null)
+                        {
+                            OnPlaneRemoved(boundedPlane);
+                            m_TrackedPlanes.Remove(trackedPlane);
+                        }
+                        // update any planes with changed extents
+                        else if (PlaneUpdated(trackedPlane, boundedPlane))
+                        {
+                            boundedPlane.center = trackedPlane.Position;
+                            boundedPlane.rotation = trackedPlane.Rotation;
+                            boundedPlane.extents.x = trackedPlane.ExtentX;
+                            boundedPlane.extents.y = trackedPlane.ExtentZ;
+			    m_TrackedPlanes[trackedPlane] = boundedPlane;
+                            OnPlaneUpdated(boundedPlane);
+                        }
                     }
-                    // update any planes with changed extents
-                    else if (PlaneUpdated(trackedPlane, boundedPlane))
+                    // add any new planes
+                    else
                     {
-                        boundedPlane.center = trackedPlane.Position;
-                        boundedPlane.rotation = trackedPlane.Rotation;
-                        boundedPlane.extents.x = trackedPlane.ExtentX;
-                        boundedPlane.extents.y = trackedPlane.ExtentZ;
-                        OnPlaneUpdated(boundedPlane);
-                    }
-                }
-                // add any new planes
-                else
-                {
-                    boundedPlane = new BoundedPlane()
-                    {
-                        id = Guid.NewGuid().ToString(),
-                        center = trackedPlane.Position,
-                        rotation = trackedPlane.Rotation,
-                        extents = new Vector2(trackedPlane.ExtentX, trackedPlane.ExtentZ)
-                    };
+                        boundedPlane = new BoundedPlane()
+                        {
+                            id = Guid.NewGuid().ToString(),
+                            center = trackedPlane.Position,
+                            rotation = trackedPlane.Rotation,
+                            extents = new Vector2(trackedPlane.ExtentX, trackedPlane.ExtentZ)
+                        };
 
-                    m_TrackedPlanes.Add(trackedPlane, boundedPlane);
-                    OnPlaneAdded(boundedPlane);
+                        m_TrackedPlanes.Add(trackedPlane, boundedPlane);
+                        OnPlaneAdded(boundedPlane);
+                    }
                 }
+
+                // Check for planes that were removed from the tracked plane list
+                List<TrackedPlane> planesToRemove = new List<TrackedPlane>();
+                foreach (var kvp in m_TrackedPlanes)
+                {
+                    var trackedPlane = kvp.Key;
+                    if (!m_TrackedPlaneBuffer.Exists(x => x == trackedPlane))
+                    {
+                        OnPlaneRemoved(kvp.Value);
+                        planesToRemove.Add(trackedPlane);
+                    }
+                }
+
+                foreach (var plane in planesToRemove)
+                    m_TrackedPlanes.Remove(plane);
+
             }
 
-            // Check for planes that were removed from the tracked plane list
-            List<TrackedPlane> planesToRemove = new List<TrackedPlane>();
-            foreach (var kvp in m_TrackedPlanes)
-            {
-                var trackedPlane = kvp.Key;
-                if (!m_TrackedPlaneBuffer.Exists(x => x == trackedPlane))
-                {
-                    OnPlaneRemoved(kvp.Value);
-                    planesToRemove.Add(trackedPlane);
-                }
+            //Update Anchors
+            foreach(var anchor in m_Anchors){
+                anchor.Key.transform.position = anchor.Value.transform.position;
+                anchor.Key.transform.rotation = anchor.Value.transform.rotation;
             }
+        }
 
-            foreach (var plane in planesToRemove)
-                m_TrackedPlanes.Remove(plane);
+
+        public override void ApplyAnchor(ARAnchor arAnchor)
+        {
+            if (!IsRunning)
+                return;
+            //Since ARCore wants to create it's own GameObject, we can keep a reference to it and copy its Pose.
+            //Not the best, but probably will change when ARCore releases.
+            Anchor arCoreAnchor = Session.CreateWorldAnchor(new Pose(arAnchor.transform.position, arAnchor.transform.rotation));
+            arAnchor.anchorID = Guid.NewGuid().ToString();
+            m_Anchors[arAnchor] = arCoreAnchor;
+        }
+
+        public override void DestroyAnchor(ARAnchor arAnchor)
+        {
+            if (!string.IsNullOrEmpty(arAnchor.anchorID))
+            {
+                Anchor arCoreAnchor;
+                if(m_Anchors.TryGetValue(arAnchor, out arCoreAnchor)){
+                    UnityEngine.Object.Destroy(arCoreAnchor);
+                    m_Anchors.Remove(arAnchor);
+                }
+
+                arAnchor.anchorID = null;
+
+            }
         }
     }
 }

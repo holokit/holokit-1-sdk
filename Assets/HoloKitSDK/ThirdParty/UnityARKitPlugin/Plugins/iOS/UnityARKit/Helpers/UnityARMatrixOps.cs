@@ -5,6 +5,17 @@ namespace UnityEngine.XR.iOS
 	public class UnityARMatrixOps
 	{
 
+		public static Matrix4x4 UnityToARKitCoordChange(Vector3 position, Quaternion rotation)
+		{
+			Matrix4x4 result = new Matrix4x4 ();
+			//do the conversions back to ARKit space
+			result.SetTRS (new Vector3 (position.x, position.y, -position.z),
+				new Quaternion (rotation.x, rotation.y, -rotation.z, -rotation.w),
+				Vector3.one);
+			return result;
+
+		}
+
 		public static Vector3 GetPosition(Matrix4x4 matrix)
 		{
 			// Convert from ARKit's right-handed coordinate

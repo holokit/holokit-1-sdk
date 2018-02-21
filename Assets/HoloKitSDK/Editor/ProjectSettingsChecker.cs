@@ -23,16 +23,10 @@ namespace HoloKit.Editor
         }
 
         private static void checkPlatform() {
-            //if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.iOS) {
-            //     if (EditorUtility.DisplayDialog(
-            //         "Switch Platform", 
-            //         "Switch to iOS now? ", 
-            //         "Switch to iOS",
-            //         "Cancel")) 
-            //    {
-            //        EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.iOS, BuildTarget.iOS);
-            //    }
-            //}
+            if (!(EditorUserBuildSettings.activeBuildTarget == BuildTarget.iOS
+                  || EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android)) {
+                Debug.LogError("HoloKit: only runs on iOS or Android Platform. Please switch platform.");
+            }
         }
 
         private static void checkCameraDescription()
@@ -41,7 +35,7 @@ namespace HoloKit.Editor
                 PlayerSettings.iOS.cameraUsageDescription.Length == 0) 
                 {
                     PlayerSettings.iOS.cameraUsageDescription = "HoloKit needs to use your camera for inside-out tracking. ";
-                    Debug.Log("HoloKit: Player Settings updated. Camera Usage Description set to default HoloKit message");
+                    Debug.LogError("HoloKit: Player Settings updated. Camera Usage Description set to default HoloKit message");
                 }
         }
 
@@ -57,8 +51,8 @@ namespace HoloKit.Editor
             }
 
             if (version < 11) {
-                PlayerSettings.iOS.targetOSVersionString = "11.0";
-                Debug.Log("HoloKit: Player Settings updated. Target minimum iOS version set to 11.0");
+                PlayerSettings.iOS.targetOSVersionString = "11.3";
+                Debug.LogError("HoloKit: Player Settings updated. Target minimum iOS version set to 11.3");
             }
         }
     }

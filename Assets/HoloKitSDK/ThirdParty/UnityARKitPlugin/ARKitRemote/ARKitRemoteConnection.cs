@@ -16,6 +16,7 @@ namespace UnityEngine.XR.iOS
 		public UnityARPlaneDetection planeDetection = UnityARPlaneDetection.Horizontal;
 		public bool getPointCloud = true;
 		public bool enableLightEstimation = true;
+		public bool enableAutoFocus = true;
 
 		[Header("Run Options")]
 		public bool resetTracking = true;
@@ -186,7 +187,7 @@ namespace UnityEngine.XR.iOS
 		{
 			serializableFromEditorMessage sfem = new serializableFromEditorMessage ();
 			sfem.subMessageId = SubMessageIds.editorInitARKit;
-			serializableARSessionConfiguration ssc = new serializableARSessionConfiguration (startAlignment, planeDetection, getPointCloud, enableLightEstimation); 
+			serializableARSessionConfiguration ssc = new serializableARSessionConfiguration (startAlignment, planeDetection, getPointCloud, enableLightEstimation, enableAutoFocus); 
 			UnityARSessionRunOption roTracking = resetTracking ? UnityARSessionRunOption.ARSessionRunOptionResetTracking : 0;
 			UnityARSessionRunOption roAnchors = removeExistingAnchors ? UnityARSessionRunOption.ARSessionRunOptionRemoveExistingAnchors : 0;
 			sfem.arkitConfigMsg = new serializableARKitInit (ssc, roTracking | roAnchors);

@@ -1,15 +1,20 @@
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.Callbacks;
+#if UNITY_IOS
 using UnityEditor.iOS.Xcode;
+#endif
+using UnityEngine.XR.iOS;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System;
 
-public class UnityARBuildPostprocessor
+
+public class UnityARBuildPostprocessor 
 {
+	static List<ARReferenceImagesSet> imageSets = new List<ARReferenceImagesSet>();
 	// Build postprocessor. Currently only needed on:
 	// - iOS: no dynamic libraries, so plugin source files have to be copied into Xcode project
 	[PostProcessBuild]
@@ -17,6 +22,21 @@ public class UnityARBuildPostprocessor
 	{
 		if (target == BuildTarget.iOS)
 			OnPostprocessBuildIOS(pathToBuiltProject);
+	}
+
+	[PostProcessScene]
+	public static void OnPostProcessScene()
+	{
+		if (!BuildPipeline.isBuildingPlayer)
+			return;
+	
+		foreach(ARReferenceImagesSet ar in UnityEngine.Resources.FindObjectsOfTypeAll<ARReferenceImagesSet>())
+		{
+			if (!imageSets.Contains (ar)) {
+				imageSets.Add (ar);
+			}
+		}
+
 	}
 
 	private static UnityARKitPluginSettings LoadSettings()
@@ -66,11 +86,77 @@ public class UnityARBuildPostprocessor
 			File.WriteAllLines(file, copy);
 	}
 
+	static void AddReferenceImageToResourceGroup(ARReferenceImage arri, string parentFolderFullPath, string projectRelativePath, PBXProject project)
+	{
+
+		ARResourceContents resourceContents = new ARResourceContents ();
+		resourceContents.info = new ARResourceInfo ();
+		resourceContents.info.author = "xcode";
+		resourceContents.info.version = 1;
+
+		resourceContents.images = new ARResourceImage[1];
+		resourceContents.images [0] = new ARResourceImage ();
+		resourceContents.images [0].idiom = "universal";
+
+		resourceContents.properties = new ARResourceProperties ();
+		resourceContents.properties.width = arri.physicalSize;
+
+		//add folder for reference image
+		string folderToCreate = arri.imageName + ".arreferenceimage";
+		string folderFullPath = Path.Combine (parentFolderFullPath, folderToCreate);
+		string projectRelativeFolder = Path.Combine (projectRelativePath, folderToCreate);
+		Directory.CreateDirectory (folderFullPath);
+		project.AddFolderReference (folderFullPath, projectRelativeFolder);
+
+		//copy file from texture asset
+		string imagePath = AssetDatabase.GetAssetPath(arri.imageTexture);
+		string imageFilename = Path.GetFileName (imagePath);
+		var dstPath = Path.Combine(folderFullPath, imageFilename);
+		File.Copy(imagePath, dstPath, true);
+		project.AddFile (dstPath, Path.Combine (projectRelativeFolder, imageFilename));
+		resourceContents.images [0].filename = imageFilename;
+
+		//add contents.json file
+		string contentsJsonPath = Path.Combine(folderFullPath, "Contents.json");
+		File.WriteAllText (contentsJsonPath, JsonUtility.ToJson (resourceContents, true));
+		project.AddFile (contentsJsonPath, Path.Combine (projectRelativeFolder, "Contents.json"));
+
+	}
+
+	static void AddReferenceImagesSetToAssetCatalog(ARReferenceImagesSet aris, string pathToBuiltProject, PBXProject project)
+	{
+		List<ARReferenceImage> processedImages = new List<ARReferenceImage> ();
+		ARResourceGroupContents groupContents = new ARResourceGroupContents();
+		groupContents.info = new ARResourceGroupInfo ();
+		groupContents.info.author = "xcode";
+		groupContents.info.version = 1;
+		string folderToCreate = "Unity-iPhone/Images.xcassets/" + aris.resourceGroupName + ".arresourcegroup";
+		string folderFullPath = Path.Combine (pathToBuiltProject, folderToCreate);
+		Directory.CreateDirectory (folderFullPath);
+		project.AddFolderReference (folderFullPath, folderToCreate);
+		foreach (ARReferenceImage arri in aris.referenceImages) {
+			if (!processedImages.Contains (arri)) {
+				processedImages.Add (arri); //get rid of dupes
+				AddReferenceImageToResourceGroup(arri, folderFullPath, folderToCreate, project);
+			}
+		}
+
+		groupContents.resources = new ARResourceGroupResource[processedImages.Count];
+		int index = 0;
+		foreach (ARReferenceImage arri in processedImages) {
+			groupContents.resources [index] = new ARResourceGroupResource ();
+			groupContents.resources [index].filename = arri.imageName + ".arreferenceimage";
+			index++;
+		}
+		string contentsJsonPath = Path.Combine(folderFullPath, "Contents.json");
+		File.WriteAllText (contentsJsonPath, JsonUtility.ToJson (groupContents, true));
+		project.AddFile (contentsJsonPath, Path.Combine (folderToCreate, "Contents.json"));
+	}
+
 	private static void OnPostprocessBuildIOS(string pathToBuiltProject)
 	{
 		// We use UnityEditor.iOS.Xcode API which only exists in iOS editor module
 		#if UNITY_IOS
-
 		string projPath = pathToBuiltProject + "/Unity-iPhone.xcodeproj/project.pbxproj";
 
 		UnityEditor.iOS.Xcode.PBXProject proj = new UnityEditor.iOS.Xcode.PBXProject();
@@ -104,6 +190,17 @@ public class UnityARBuildPostprocessor
 			capsArray.AddString(arkitStr);
 		}
 		File.WriteAllText(plistPath, plist.WriteToString());
+
+		foreach(ARReferenceImagesSet ar in imageSets)
+		{
+			AddReferenceImagesSetToAssetCatalog(ar, pathToBuiltProject, proj);
+		}
+
+		//TODO: remove this when XCode actool is able to handles ARResources despite deployment target
+		if (imageSets.Count > 0)
+		{
+			proj.SetBuildProperty(target, "IPHONEOS_DEPLOYMENT_TARGET", "11.3");
+		}
 
 		// Add or replace define for facetracking
 		UpdateDefinesInFile(pathToBuiltProject + "/Classes/Preprocessor.h", new Dictionary<string, bool>() {

@@ -29,7 +29,6 @@ public class UnityARFaceAnchorManager : MonoBehaviour {
 
 		}
 
-
 	}
 
 	void FaceAdded (ARFaceAnchor anchorData)

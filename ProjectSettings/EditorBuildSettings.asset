@@ -4,10 +4,4 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes:
-  - enabled: 1
-    path: Assets/HoloKitSDK/Examples/CubeOnTheFloor.unity
-    guid: 491e982fac8f7473fb84e669ddc18ad4
-  - enabled: 0
-    path: Assets/HoloKitSDK/v2/Scenes/HoloKitCamera.unity
-    guid: e1051f39879e3d348ba8a56eff69abdc
+  m_Scenes: []

@@ -12,36 +12,42 @@ public class UnityARCameraManager : MonoBehaviour {
 	[Header("AR Config Options")]
 	public UnityARAlignment startAlignment = UnityARAlignment.UnityARAlignmentGravity;
 	public UnityARPlaneDetection planeDetection = UnityARPlaneDetection.Horizontal;
+	public ARReferenceImagesSet detectionImages = null;
 	public bool getPointCloud = true;
 	public bool enableLightEstimation = true;
+	public bool enableAutoFocus = true;
+	private bool sessionStarted = false;
 
 	// Use this for initialization
 	void Start () {
 
 		m_session = UnityARSessionNativeInterface.GetARSessionNativeInterface();
 
-#if !UNITY_EDITOR
 		Application.targetFrameRate = 60;
         ARKitWorldTrackingSessionConfiguration config = new ARKitWorldTrackingSessionConfiguration();
 		config.planeDetection = planeDetection;
 		config.alignment = startAlignment;
 		config.getPointCloudData = getPointCloud;
 		config.enableLightEstimation = enableLightEstimation;
-        m_session.RunWithConfig(config);
+		config.enableAutoFocus = enableAutoFocus;
+		if (detectionImages != null) {
+			config.arResourceGroupName = detectionImages.resourceGroupName;
+		}
+
+		if (config.IsSupported) {
+			m_session.RunWithConfig (config);
+			UnityARSessionNativeInterface.ARFrameUpdatedEvent += FirstFrameUpdate;
+		}
 
 		if (m_camera == null) {
 			m_camera = Camera.main;
 		}
-#else
-		//put some defaults so that it doesnt complain
-		UnityARCamera scamera = new UnityARCamera ();
-		scamera.worldTransform = new UnityARMatrix4x4 (new Vector4 (1, 0, 0, 0), new Vector4 (0, 1, 0, 0), new Vector4 (0, 0, 1, 0), new Vector4 (0, 0, 0, 1));
-		Matrix4x4 projMat = Matrix4x4.Perspective (60.0f, 1.33f, 0.1f, 30.0f);
-		scamera.projectionMatrix = new UnityARMatrix4x4 (projMat.GetColumn(0),projMat.GetColumn(1),projMat.GetColumn(2),projMat.GetColumn(3));
+	}
 
-		UnityARSessionNativeInterface.SetStaticCamera (scamera);
-
-#endif
+	void FirstFrameUpdate(UnityARCamera cam)
+	{
+		sessionStarted = true;
+		UnityARSessionNativeInterface.ARFrameUpdatedEvent -= FirstFrameUpdate;
 	}
 
 	public void SetCamera(Camera newCamera)
@@ -75,7 +81,7 @@ public class UnityARCameraManager : MonoBehaviour {
 
 	void Update () {
 		
-        if (m_camera != null)
+		if (m_camera != null && sessionStarted)
         {
             // JUST WORKS!
             Matrix4x4 matrix = m_session.GetCameraPose();
