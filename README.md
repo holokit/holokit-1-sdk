@@ -1,11 +1,16 @@
-# HoloKitSDK v1.0 (arinterface Branch)
+# HoloKitSDK v1.5 (Beta Branch)
 
 HoloKitSDK is to build AR/MR apps for HoloKit. Currently, we provide the SDK as Unity package.
 
-For Google Tango, please checkout "tango" branch.
-For Apple iOS (ARKit), please checkout "ios" branch. 
-For Android (ARCore), please checkout "android" branch. 
-For ARInterface (Unity), please checkout "arinterface" branch.
+## Index
+
+### HoloKit SDK v1.5 (Latest version): 
+* For ARKit 1.5 and ARCore preview 2, please checkout "master" branch.
+
+### HoloKit SDK v1.0 (Legacy version):
+* For Google Tango, please checkout "tango" branch.
+* For Apple iOS (ARKit), please checkout "ios" branch. 
+* For Android (ARCore), please checkout "android" branch. 
 
 For detailed manual, please see [HoloKitSDK Reference Manual](docs/MANUAL.md).
 
