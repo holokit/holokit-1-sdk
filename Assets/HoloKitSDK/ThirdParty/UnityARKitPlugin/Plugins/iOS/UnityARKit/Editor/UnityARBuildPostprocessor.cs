@@ -85,7 +85,7 @@ public class UnityARBuildPostprocessor
 		if (!copy.SequenceEqual(src))
 			File.WriteAllLines(file, copy);
 	}
-
+    #if UNITY_IOS
 	static void AddReferenceImageToResourceGroup(ARReferenceImage arri, string parentFolderFullPath, string projectRelativePath, PBXProject project)
 	{
 
@@ -152,6 +152,7 @@ public class UnityARBuildPostprocessor
 		File.WriteAllText (contentsJsonPath, JsonUtility.ToJson (groupContents, true));
 		project.AddFile (contentsJsonPath, Path.Combine (folderToCreate, "Contents.json"));
 	}
+    #endif
 
 	private static void OnPostprocessBuildIOS(string pathToBuiltProject)
 	{
