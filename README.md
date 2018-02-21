@@ -87,9 +87,36 @@ Make sure that the paramaters below is correct. Player Settings -> Other Setting
 5. If you don't like the ambient light, please disable HoloKitAmbientLight in your scene.
 
 ## Manual 
-For detailed manual, please see [HoloKitSDK Reference Manual](docs/MANUAL.md).
   
- 
+### Prefabs
+#### HoloKitCamera
+* The most basic component to have your game responds to ARKit tracking. 
+* It has a child VideoSeeThroughCamera that renders video seethrough VR experience. There are two extra cameras "Left Eye", "Right Eye" as its children, to render stereo for HoloKit. In "HoloKitCameraRig" object, you can set default see through mode and the key for toggling modes. 
+
+#### HoloKitObjectGenerator
+
+##### DisplayPlanes 
+* To generate collidable planes when ARKit detects a plane. Optionally, you can set a Plane Prefab as its property to visualize the generated planes.
+
+##### PointCloud
+* To visualize point clouds that ARKit detects, for debugging purpose. 
+
+##### AmbientLight
+* A directional light, which intensity is controlled by ARKit. The intensity will adjust automatically based on the current environment's lighting in reality.
+
+##### HoloKitPlacementRoot
+* A convenient prefab to help you place your objects on the ground. See "How to place your object on the ground" for details.
+
+#### HoloKitGazeManager
+* A convenient prefab for you to emit gaze events. See "How to respond to gaze events" for details.
+
+### How to place your object on the ground
+1. Drag "HoloKitPlaneGenerator" and "HoloKitPlacementRoot" to your scene.
+2. Put your object under "HoloKitPlacementRoot", and your object should have a comparable size as "DebugCube". Then feel free to turn off or delete "DebugCube".
+    * ![Screenshot](images/whale.png)
+3. Set the input key for placement.
+    * ![Screenshot](images/place_key.png)
+
 ## Troubleshooting
 ### How to upgrade to iOS 11.3 Beta?
 1. Backup your device. See "Prepare your device before you update to beta software" section in [About iOS beta software](https://support.apple.com/en-us/HT203282)
