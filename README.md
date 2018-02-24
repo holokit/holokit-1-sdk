@@ -1,4 +1,4 @@
-# HoloKitSDK v1.5 (Beta Branch)
+# HoloKitSDK v1.5 (Branch)
 
 HoloKitSDK is the Unity plugins to build AR/MR apps for HoloKit. 
 
@@ -19,12 +19,12 @@ HoloKitSDK is the Unity plugins to build AR/MR apps for HoloKit.
 ## Supported Devices
 
 * iOS (ARKit): iPhone 6S, 7, 8, 6S+, 7+, 8+, X.
-* Android (ARCore): Google Pixel, Pixel XL, Pixel 2, Pixel 2 XL, Samsung Galaxy S8. See more: [the full list of supported Android devices](https://developers.google.com/ar/discover/#supported_devices))
+* Android (ARCore): Google Pixel, Pixel XL, Pixel 2, Pixel 2 XL, Asus Zenfone AR, LG V30, OnePlus 5, Samsung Galaxy S7, S7 Edge, S8, S8+, Note8. See more: [the full list of supported Android devices](https://developers.google.com/ar/discover/#supported_devices))
 
 ## Version Index
 
-### HoloKit SDK v1.5 (In beta): 
-* For ARKit 1.5 beta and ARCore preview 2, please checkout "master" branch.
+### HoloKit SDK v1.5 (Current version): 
+* For ARKit 1.5 beta and ARCore 1.0, please checkout "master" branch.
 
 ### HoloKit SDK v1.0 (Legacy version):
 * For Google Tango, please checkout "tango" branch.
@@ -50,8 +50,6 @@ Make sure that the paramaters below is correct. Player Settings -> Other Setting
     * Prepare your device
     - Enable developer options
     - Enable USB debugging
-    - Download the [ARCore Service Preview 2](https://github.com/google-ar/arcore-android-sdk/releases/download/sdk-preview2/arcore-preview2.apk), then install it with the following adb command: 
-    ``adb install -r -d arcore-preview2.apk``
 * Android Studio with Android SDK installed.
 * Unity 2017.3.1f3 or later. Make sure you installed Android components.
     1. Change the target platform to Android and click Switch Platform.
