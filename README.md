@@ -16,6 +16,11 @@ HoloKitSDK is the Unity plugins to build AR/MR apps for HoloKit.
 * [ARKit v1.5 or above] Horizontal and vertical plane detection.
 * [ARKit v1.5 or above] Image marker detection.
  
+## News 
+
+* Feb 23, 2018. Added ARcore 1.0 support.
+* Feb 23, 2018. Added ARKit 1.5 beta support. 
+
 ## Supported Devices
 
 * iOS (ARKit): iPhone 6S, 7, 8, 6S+, 7+, 8+, X.
