@@ -79,8 +79,8 @@ Make sure that the paramaters below is correct. Player Settings -> Other Setting
 1. Import "HoloKitSDK" folder under "Assets" folder into a new Unity project.
 2. Open the example scene "HoloKitSDK/Scenes/HoloKitSample_ARKit1.5".
 3. You can detect the vertical plane.
-4. You can detect the image marker under "Assets/HoloKitSDK/ThirdParty/UnityARKitPlugin/Examples/ARKit1.5/UnityARImageAnchor/ReferenceImages/unitylogowhiteonblack.png". 
- * ![Screenshot](Assets/HoloKitSDK/ThirdParty/UnityARKitPlugin/Examples/ARKit1.5/UnityARImageAnchor/ReferenceImages/unitylogowhiteonblack.png)
+4. You can detect the image marker under "Assets/UnityARKitPlugin/Examples/ARKit1.5/UnityARImageAnchor/ReferenceImages/unitylogowhiteonblack.png". 
+ * ![Screenshot](Assets/UnityARKitPlugin/Examples/ARKit1.5/UnityARImageAnchor/ReferenceImages/unitylogowhiteonblack.png)
 
 ### Create your own experience
 1. Create a new scene in Unity. 
