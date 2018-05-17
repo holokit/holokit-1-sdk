@@ -9,7 +9,7 @@ namespace HoloKit
 {
     public class HoloKitScreenBrightnessManager : MonoBehaviour
     {
-//#if !UNITY_EDITOR && UNITY_ANDROID
+#if !UNITY_EDITOR && UNITY_ANDROID
         public bool CanWriteSettings { get; set; }
 
         class HolokitPermissionCallback : AndroidJavaProxy
@@ -40,7 +40,7 @@ namespace HoloKit
 
         // Avoid calling java method each frame
         private float nextUpdateTime;
-//#endif
+#endif
 
         private static HoloKitScreenBrightnessManager instance;
         public static HoloKitScreenBrightnessManager Instance
@@ -97,7 +97,7 @@ namespace HoloKit
 #endif
             {
                 SetBrightness(brightness);
-#if UNITY_ANDROID
+#if !UNITY_EDITOR && UNITY_ANDROID
                 nextUpdateTime = Time.time + 5.0f;
 #endif
             }
